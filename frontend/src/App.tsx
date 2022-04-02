@@ -1,10 +1,16 @@
+import { ChakraProvider } from '@chakra-ui/react';
+import { Route, Routes } from 'react-router-dom';
+
 import './App.css';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
-    <div className="App">
-      Time tracker
-    </div>
+    <ChakraProvider>
+        <Routes>
+          <Route path='/' element={<HomePage />}/>
+        </Routes>
+    </ChakraProvider>
   );
 }
 
