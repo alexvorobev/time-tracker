@@ -1,5 +1,4 @@
-export const theme = {
-};
+export const theme = {};
 
 type TTheme = typeof theme;
 

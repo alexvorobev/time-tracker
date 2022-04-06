@@ -1,0 +1,20 @@
+# generated scss module types
+*.module.scss.d.ts
+
+# generated artifacts
+**/graphql/index.tsx
+
+# untouched files of CRA
+serviceWorker.ts
+react-app-env.d.ts
+config-overrides.js
+
+.idea
+coverage
+node_modules
+public
+demo
+.vscodes
+
+*.css
+*.svg

@@ -7,21 +7,22 @@ const LogoutWrapper = styled(Button)(`
     padding: 12px;
     width: 100%;
     height: auto;
+    border-radius: 32px;
 `);
 
 const Avatar = styled.div`
-    display: block;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background: #fff;
+  display: block;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background: #3182ce;
 `;
 
-const LogoutButton = () => <LogoutWrapper>
+const LogoutButton = () => (
+  <LogoutWrapper>
     <Avatar />
-    <span>
-        Alexey V.
-    </span>
-</LogoutWrapper>
+    <span>Alexey V.</span>
+  </LogoutWrapper>
+);
 
 export default LogoutButton;

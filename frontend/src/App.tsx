@@ -7,9 +7,9 @@ import HomePage from './pages/HomePage';
 function App() {
   return (
     <ChakraProvider>
-        <Routes>
-          <Route path='/' element={<HomePage />}/>
-        </Routes>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+      </Routes>
     </ChakraProvider>
   );
 }
