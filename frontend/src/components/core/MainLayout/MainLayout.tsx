@@ -1,7 +1,9 @@
+import { FC } from 'react';
 import { Button, Stack, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { FC } from 'react';
-import LogoutButton from '../../navigation/LogoutButton';
+
+import LogoutButton from 'components/navigation/LogoutButton';
+
 import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
 import SettingsIcons from './icons/SettingsIcon';

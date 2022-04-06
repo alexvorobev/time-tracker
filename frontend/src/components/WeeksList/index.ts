@@ -1,4 +1,5 @@
-import WeeksList, { Week as WeekType } from './WeeksList';
+import { Week as WeekType } from './WeeksList';
 
 export type Week = WeekType;
-export default WeeksList;
+
+export { default } from './WeeksList';

@@ -1,5 +1,6 @@
-import { Checkbox, Text } from '@chakra-ui/react';
 import { FC } from 'react';
+import { Checkbox, Text } from '@chakra-ui/react';
+
 import WeekItem, {
   ActionCell,
   CheckboxCell,

@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
+import { Checkbox } from '@chakra-ui/react';
 
 import { Week } from '../..';
-import { Checkbox } from '@chakra-ui/react';
 import formatDate from 'utils/formatDate';
 
 interface Props {

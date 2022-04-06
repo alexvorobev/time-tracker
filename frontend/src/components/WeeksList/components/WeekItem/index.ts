@@ -1,4 +1,1 @@
-import WeekItem from './WeekItem';
-
-export { WeekWrapper, DateCell, DayCell, ActionCell, ProjectsCell, CheckboxCell } from './WeekItem';
-export default WeekItem;
+export { WeekWrapper, DateCell, DayCell, ActionCell, ProjectsCell, CheckboxCell, default } from './WeekItem';

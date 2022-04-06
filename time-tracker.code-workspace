@@ -1,0 +1,18 @@
+{
+    "folders": [
+      {
+        "path": "api"
+      },
+      {
+        "path": "frontend"
+      }
+    ],
+    "settings": {
+      "git.confirmSync": false,
+      "stylelint.enable": true,
+      "cSpell.words": [
+        "Chakra"
+      ]
+    }
+  }
+  

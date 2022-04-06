@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { Week } from '..';
 
 export const weeksMock: Week[] = [

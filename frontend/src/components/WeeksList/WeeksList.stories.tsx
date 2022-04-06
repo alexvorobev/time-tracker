@@ -1,4 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
+
 import { weeksMock } from './mocks/data';
 import WeeksList from './WeeksList';
 
