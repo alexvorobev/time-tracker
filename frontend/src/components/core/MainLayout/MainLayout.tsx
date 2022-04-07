@@ -1,12 +1,14 @@
 import { FC } from 'react';
-import { Button, Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import LogoutButton from 'components/navigation/LogoutButton';
+import NavigationButton from 'components/navigation/NavigationButton';
 
 import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
 import SettingsIcons from './icons/SettingsIcon';
+import Routes from 'routes';
 
 const MainWrapper = styled.div(`
     display: grid;
@@ -16,10 +18,6 @@ const MainWrapper = styled.div(`
     margin: 0 auto;
     height: 100vh;
     padding: 32px 0 48px;
-`);
-
-const NavigationItem = styled(Button)(`
-    justify-content: flex-start;
 `);
 
 const NavigationBar = styled.div`
@@ -47,15 +45,15 @@ const MainLayout: FC = ({ children }) => (
             TimeTracker
           </Text>
           <Stack spacing={2}>
-            <NavigationItem variant='ghost' leftIcon={<HomeIcon />} iconSpacing={3}>
+            <NavigationButton icon={<HomeIcon />} to={Routes.HOME}>
               Overview
-            </NavigationItem>
-            <NavigationItem variant='ghost' leftIcon={<ProjectsIcon />} iconSpacing={3}>
+            </NavigationButton>
+            <NavigationButton icon={<ProjectsIcon />} to={Routes.PROJECTS}>
               Projects
-            </NavigationItem>
-            <NavigationItem variant='ghost' leftIcon={<SettingsIcons />} iconSpacing={3}>
+            </NavigationButton>
+            <NavigationButton icon={<SettingsIcons />} to={Routes.SETTINGS}>
               Settings
-            </NavigationItem>
+            </NavigationButton>
           </Stack>
         </Stack>
         <div>

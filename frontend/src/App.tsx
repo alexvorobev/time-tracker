@@ -1,15 +1,23 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes as RotesList } from 'react-router-dom';
 
 import './App.css';
-import HomePage from './pages/HomePage';
+import Dashboard from 'pages/Dashboard';
+import HomePage from 'pages/Dashboard/pages/HomePage';
+import SettingsPage from 'pages/Dashboard/pages/SettingsPage';
+import ProjectsPage from 'pages/Dashboard/pages/ProjectsPage';
+import Routes from 'routes';
 
 function App() {
   return (
     <ChakraProvider>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-      </Routes>
+      <RotesList>
+        <Route path='/' element={<Dashboard />}>
+          <Route path={Routes.HOME} element={<HomePage />} />
+          <Route path={Routes.PROJECTS} element={<ProjectsPage />} />
+          <Route path={Routes.SETTINGS} element={<SettingsPage />} />
+        </Route>
+      </RotesList>
     </ChakraProvider>
   );
 }

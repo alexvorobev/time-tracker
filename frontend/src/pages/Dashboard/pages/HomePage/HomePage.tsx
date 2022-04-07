@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 
-import MainLayout from '../../components/core/MainLayout';
-import WeeksList from '../../components/WeeksList';
-import { weeksMock } from '../../components/WeeksList/mocks/data';
+import WeeksList from 'components/WeeksList';
+import { weeksMock } from 'components/WeeksList/mocks/data';
 
 const Graph = styled.div`
   width: 100%;
@@ -13,10 +12,10 @@ const Graph = styled.div`
 `;
 
 const HomePage = () => (
-  <MainLayout>
+  <>
     <Graph />
     <WeeksList weeks={weeksMock} />
-  </MainLayout>
+  </>
 );
 
 export default HomePage;
