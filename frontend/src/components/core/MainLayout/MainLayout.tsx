@@ -9,6 +9,7 @@ import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
 import SettingsIcons from './icons/SettingsIcon';
 import Routes from 'routes';
+import { ListProvider } from 'controllers/useListState';
 
 const MainWrapper = styled.div(`
     display: grid;
@@ -34,6 +35,7 @@ const NavigationBar = styled.div`
 
 const ContentWrapper = styled.div`
   padding-left: 0px;
+  padding-bottom: 128px;
 `;
 
 const MainLayout: FC = ({ children }) => (
@@ -61,7 +63,9 @@ const MainLayout: FC = ({ children }) => (
         </div>
       </NavigationBar>
     </div>
-    <ContentWrapper>{children}</ContentWrapper>
+    <ContentWrapper>
+      <ListProvider>{children}</ListProvider>
+    </ContentWrapper>
   </MainWrapper>
 );
 

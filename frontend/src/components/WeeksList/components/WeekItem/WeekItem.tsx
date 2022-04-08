@@ -4,17 +4,20 @@ import { Checkbox } from '@chakra-ui/react';
 
 import { Week } from '../..';
 import formatDate from 'utils/formatDate';
+import { useListState } from 'controllers/useListState';
 
 interface Props {
   data?: Week;
+  isHeader?: boolean;
 }
 
-export const WeekWrapper = styled.div`
+export const WeekWrapper = styled.div<Pick<Props, 'isHeader'>>`
   display: flex;
   align-items: center;
   gap: 24px;
   height: 64px;
   border-bottom: 1px solid #eaeaea;
+  position: relative;
 
   & > * {
     height: 100%;
@@ -27,14 +30,12 @@ export const WeekWrapper = styled.div`
     border-color: transparent;
   }
 
-  &:hover {
-    background-color: #f3f7fa;
-  }
-
-  &.header {
-    background-color: #f3f7fa;
-    border-bottom: 1px solid transparent;
-  }
+  ${(props) =>
+    props.isHeader &&
+    `
+    background-color: #f3f7fa !important;
+    font-weight: 600;
+  `}
 `;
 
 export const CheckboxCell = styled.div`
@@ -62,9 +63,30 @@ export const ActionCell = styled.div`
   text-align: center;
 `;
 
-const WeekItem: FC<Props> = ({ data }) => {
+const WeekItem: FC<Props> = ({ data, isHeader }) => {
+  const { isSelectedAll, selectedItems, onSelectItem } = useListState();
+
+  const renderedHeaderVariant = (
+    <WeekWrapper isHeader>
+      <CheckboxCell>{/* <Checkbox isChecked={isSelectedAll} onChange={onSelectAll}></Checkbox> */}</CheckboxCell>
+      <DateCell>Date</DateCell>
+      <DayCell>Mon</DayCell>
+      <DayCell>Tue</DayCell>
+      <DayCell>Wed</DayCell>
+      <DayCell>Thu</DayCell>
+      <DayCell>Fri</DayCell>
+      <DayCell>Sat</DayCell>
+      <DayCell>Sun</DayCell>
+      <DayCell>Total</DayCell>
+      <ProjectsCell>Project</ProjectsCell>
+      <ActionCell />
+    </WeekWrapper>
+  );
+
+  if (isHeader) return renderedHeaderVariant;
+
   if (!data) return null;
-  const { weekStart, days, summary } = data;
+  const { id, weekStart, days, summary } = data;
   const formattedDate = formatDate(weekStart);
 
   const renderedDaysList = days.map((item, index) => <DayCell key={`${weekStart}_${index}`}>{item}h</DayCell>);
@@ -72,7 +94,7 @@ const WeekItem: FC<Props> = ({ data }) => {
   return (
     <WeekWrapper>
       <CheckboxCell>
-        <Checkbox></Checkbox>
+        <Checkbox isChecked={selectedItems.includes(id) || isSelectedAll} onChange={() => onSelectItem(id)}></Checkbox>
       </CheckboxCell>
       <DateCell>{formattedDate}</DateCell>
       {renderedDaysList}
