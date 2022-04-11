@@ -8,20 +8,23 @@ import SettingsPage from 'pages/Dashboard/pages/SettingsPage';
 import ProjectsPage from 'pages/Dashboard/pages/ProjectsPage';
 import Routes from 'routes';
 import LoginPage from 'pages/Login';
+import { AuthProvider } from 'controllers/useAuth';
 
 import theme from './theme';
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <RotesList>
-        <Route path='/' element={<Dashboard />}>
-          <Route path={Routes.HOME} element={<HomePage />} />
-          <Route path={Routes.PROJECTS} element={<ProjectsPage />} />
-          <Route path={Routes.SETTINGS} element={<SettingsPage />} />
-        </Route>
-        <Route path='/login' element={<LoginPage />} />
-      </RotesList>
+      <AuthProvider>
+        <RotesList>
+          <Route path='/' element={<Dashboard />}>
+            <Route path={Routes.HOME} element={<HomePage />} />
+            <Route path={Routes.PROJECTS} element={<ProjectsPage />} />
+            <Route path={Routes.SETTINGS} element={<SettingsPage />} />
+          </Route>
+          <Route path='/login' element={<LoginPage />} />
+        </RotesList>
+      </AuthProvider>
     </ChakraProvider>
   );
 }
