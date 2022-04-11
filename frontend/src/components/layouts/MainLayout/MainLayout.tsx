@@ -4,12 +4,12 @@ import styled from '@emotion/styled';
 
 import LogoutButton from 'components/navigation/LogoutButton';
 import NavigationButton from 'components/navigation/NavigationButton';
+import Routes from 'routes';
+import { ListProvider } from 'controllers/useListState';
 
 import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
 import SettingsIcons from './icons/SettingsIcon';
-import Routes from 'routes';
-import { ListProvider } from 'controllers/useListState';
 
 const MainWrapper = styled.div(`
     display: grid;
