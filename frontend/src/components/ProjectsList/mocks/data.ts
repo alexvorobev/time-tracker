@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-import { ProjectItem } from '../ProjectsList';
+import { Project } from '../ProjectsList';
 
-export const projectsMock: ProjectItem[] = [
+export const projectsMock: Project[] = [
   {
     id: 0,
     name: 'Project 1',

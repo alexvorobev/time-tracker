@@ -79,11 +79,14 @@ const SignUpForm: FC<Props> = ({ onSignIn }) => {
             )}
             <PasswordReqs>
               <Text color='gray.400' fontSize='sm'>
-                Password must contain:<br />
-                - more then 8 symbols<br />
-                - Aa-Zz letters<br />
-                - /*#- symbols<br />
-                - numbers
+                Password must contain:
+                <br />
+                - more then 8 symbols
+                <br />
+                - Aa-Zz letters
+                <br />
+                - /*#- symbols
+                <br />- numbers
               </Text>
             </PasswordReqs>
           </Stack>

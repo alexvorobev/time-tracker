@@ -20,11 +20,8 @@ export const ListProvider: FC = ({ children }) => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isSelectedAll, setSelectedAll] = useState<boolean>(false);
 
-  console.log({ isSelectedAll, selectedItems });
-
   const onSelectItem = useCallback(
     (item: number) => {
-      console.log('onSelectItem', item);
       setSelectedAll(false);
 
       const elementIndex = selectedItems.indexOf(item);
@@ -39,7 +36,6 @@ export const ListProvider: FC = ({ children }) => {
   );
 
   const onSelectAll = useCallback(() => {
-    console.log('onSelectAll');
     if (!isSelectedAll) {
       setSelectedItems([]);
       setSelectedAll(true);

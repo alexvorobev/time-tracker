@@ -5,6 +5,7 @@ import { Checkbox } from '@chakra-ui/react';
 import { Week } from '../..';
 import formatDate from 'utils/formatDate';
 import { useListState } from 'controllers/useListState';
+import ListActionButton from 'components/core/ListActionButton';
 
 interface Props {
   data?: Week;
@@ -28,6 +29,10 @@ export const WeekWrapper = styled.div<Pick<Props, 'isHeader'>>`
 
   &:last-child {
     border-color: transparent;
+  }
+
+  &:hover {
+    background-color: #f3f7fa;
   }
 
   ${(props) =>
@@ -79,7 +84,9 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       <DayCell>Sun</DayCell>
       <DayCell>Total</DayCell>
       <ProjectsCell>Project</ProjectsCell>
-      <ActionCell />
+      <ActionCell>
+        <ListActionButton />
+      </ActionCell>
     </WeekWrapper>
   );
 
@@ -100,7 +107,9 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       {renderedDaysList}
       <DayCell>{summary}h</DayCell>
       <ProjectsCell>Default</ProjectsCell>
-      <ActionCell>a</ActionCell>
+      <ActionCell>
+        <ListActionButton />
+      </ActionCell>
     </WeekWrapper>
   );
 };

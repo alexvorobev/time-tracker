@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
-export type ProjectItem = {
+import ProjectItem from './components/ProjectItem';
+
+export type Project = {
   id: number;
   name: string;
   today: number;
@@ -10,11 +12,18 @@ export type ProjectItem = {
 };
 
 interface Props {
-  projects?: ProjectItem[];
+  projects?: Project[];
 }
 
 const ProjectsList: FC<Props> = ({ projects }) => {
-  return <>Projects page</>;
+  return (
+    <>
+      <ProjectItem isHeader />
+      {projects?.map((item) => (
+        <ProjectItem data={item} key={item.id} />
+      ))}
+    </>
+  );
 };
 
 export default ProjectsList;

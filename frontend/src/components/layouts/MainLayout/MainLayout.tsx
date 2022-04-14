@@ -6,6 +6,7 @@ import LogoutButton from 'components/navigation/LogoutButton';
 import NavigationButton from 'components/navigation/NavigationButton';
 import Routes from 'routes';
 import { ListProvider } from 'controllers/useListState';
+import TrackersList from 'components/navigation/TrackersList';
 
 import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
@@ -31,6 +32,7 @@ const NavigationBar = styled.div`
   left: 0;
   width: 100%;
   height: calc(100vh - 80px);
+  max-width: 184px;
 `;
 
 const ContentWrapper = styled.div`
@@ -58,9 +60,10 @@ const MainLayout: FC = ({ children }) => (
             </NavigationButton>
           </Stack>
         </Stack>
-        <div>
+        <Stack spacing={2}>
+          <TrackersList />
           <LogoutButton />
-        </div>
+        </Stack>
       </NavigationBar>
     </div>
     <ContentWrapper>
