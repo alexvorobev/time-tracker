@@ -13,6 +13,11 @@ export interface SignUpType extends SignInType {
   business?: string;
 }
 
+export interface UpdateUserType extends Partial<SignUpType> {
+  newPassword?: string;
+  repeatPassword?: string;
+}
+
 interface AuthContextType {
   signIn?: (data: SignInType) => void;
   signUp?: (data: SignUpType) => void;

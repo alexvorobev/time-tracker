@@ -1,10 +1,24 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
+import styled from '@emotion/styled';
+
+import UpdateUserForm from 'components/forms/UpdateUserForm';
 
 const tabsList = ['User', 'About'];
 
 const activeStyle = {
   background: 'gray.100',
 };
+
+const UserSettingsGrid = styled('div')(() => ({
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: 32,
+}));
+
+const SettingsCard = styled(Box)(() => ({
+  padding: 24,
+  borderRadius: 16,
+}));
 
 const SettingsPage = () => {
   return (
@@ -19,7 +33,14 @@ const SettingsPage = () => {
 
       <TabPanels>
         <TabPanel>
-          <p>two!</p>
+          <UserSettingsGrid>
+            <SettingsCard borderWidth='1px'>
+              <UpdateUserForm />
+            </SettingsCard>
+            <SettingsCard borderWidth='1px'>
+              <UpdateUserForm />
+            </SettingsCard>
+          </UserSettingsGrid>
         </TabPanel>
         <TabPanel>
           <p>three!</p>
