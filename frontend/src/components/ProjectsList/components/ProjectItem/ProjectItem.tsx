@@ -69,8 +69,8 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
         <CheckboxCell></CheckboxCell>
         <TitleCell>Project</TitleCell>
         <DataCell>Today</DataCell>
-        <DataCell>Month</DataCell>
         <DataCell>Week</DataCell>
+        <DataCell>Month</DataCell>
         <DataCell>Total</DataCell>
         <ActionCell>
           <ListActionButton />
@@ -88,8 +88,8 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
       </CheckboxCell>
       <TitleCell>{name}</TitleCell>
       <DataCell>{today}</DataCell>
-      <DataCell>{month}</DataCell>
       <DataCell>{week}</DataCell>
+      <DataCell>{month}</DataCell>
       <DataCell>{total}</DataCell>
       <ActionCell>
         <ListActionButton />

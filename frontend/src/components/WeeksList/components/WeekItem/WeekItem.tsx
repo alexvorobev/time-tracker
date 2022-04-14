@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { Checkbox } from '@chakra-ui/react';
 
@@ -69,7 +69,9 @@ export const ActionCell = styled.div`
 `;
 
 const WeekItem: FC<Props> = ({ data, isHeader }) => {
-  const { isSelectedAll, selectedItems, onSelectItem } = useListState();
+  const { selectedItems, onSelectItem } = useListState();
+  const { id } = data || { id: -1 };
+  const isSelected = useMemo(() => selectedItems.includes(id), [id, selectedItems]);
 
   const renderedHeaderVariant = (
     <WeekWrapper isHeader>
@@ -93,7 +95,7 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
   if (isHeader) return renderedHeaderVariant;
 
   if (!data) return null;
-  const { id, weekStart, days, summary } = data;
+  const { weekStart, days, summary } = data;
   const formattedDate = formatDate(weekStart);
 
   const renderedDaysList = days.map((item, index) => <DayCell key={`${weekStart}_${index}`}>{item}h</DayCell>);
@@ -101,7 +103,7 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
   return (
     <WeekWrapper>
       <CheckboxCell>
-        <Checkbox isChecked={selectedItems.includes(id) || isSelectedAll} onChange={() => onSelectItem(id)}></Checkbox>
+        <Checkbox isChecked={isSelected} onChange={() => onSelectItem(id)}></Checkbox>
       </CheckboxCell>
       <DateCell>{formattedDate}</DateCell>
       {renderedDaysList}

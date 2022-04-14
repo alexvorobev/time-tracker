@@ -20,14 +20,14 @@ export const ListProvider: FC = ({ children }) => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isSelectedAll, setSelectedAll] = useState<boolean>(false);
 
+  console.log({ selectedItems });
+
   const onSelectItem = useCallback(
     (item: number) => {
       setSelectedAll(false);
 
-      const elementIndex = selectedItems.indexOf(item);
-
-      if (elementIndex > -1) {
-        selectedItems.splice(elementIndex, 1);
+      if (selectedItems.includes(item)) {
+        setSelectedItems((s) => s.filter((selectedItem) => selectedItem !== item));
       } else {
         setSelectedItems([...selectedItems, item]);
       }
