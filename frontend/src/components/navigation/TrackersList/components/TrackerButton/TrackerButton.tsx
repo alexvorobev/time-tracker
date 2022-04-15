@@ -1,6 +1,9 @@
+import { FC } from 'react';
 import { Button, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { FC } from 'react';
+
+import PlayIcon from './icons/PlayIcon';
+import PauseIcon from './icons/StopIcon';
 
 interface Props {
   isActive?: boolean;
@@ -30,9 +33,11 @@ const ProjectTitle = styled(Text)(() => ({
 const ActionButton = styled(Button)(() => ({
   height: 48,
   width: 48,
+  background: 'transparent',
 
   ':hover': {
     background: '#339637',
+    color: 'white',
   },
 }));
 
@@ -41,13 +46,15 @@ const TextWrapper = styled('div')(() => ({
 }));
 
 const TrackerButton: FC<Props> = ({ isActive }) => {
+  const renderedButtonIcon = !isActive ? <PlayIcon /> : <PauseIcon />;
+
   return (
     <TrackerWrapper isActive={isActive}>
       <TextWrapper>
         <ProjectTitle fontWeight={800}>Default project</ProjectTitle>
-        <Text>01:34:33</Text>
+        <Text>00:15</Text>
       </TextWrapper>
-      <ActionButton variant='ghost'>+</ActionButton>
+      <ActionButton variant='ghost'>{renderedButtonIcon}</ActionButton>
     </TrackerWrapper>
   );
 };

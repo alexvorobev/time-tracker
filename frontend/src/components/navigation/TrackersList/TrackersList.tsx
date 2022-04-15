@@ -16,6 +16,9 @@ const AddButton = styled(Button)(() => ({
 }));
 
 const ListWrapper = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
   position: 'relative',
   transition: '.6s padding',
 

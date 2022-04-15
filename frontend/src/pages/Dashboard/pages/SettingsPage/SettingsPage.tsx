@@ -1,5 +1,6 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import AboutArticle from 'components/AboutArticle';
 
 import UpdateUserForm from 'components/forms/UpdateUserForm';
 import UpdateUserPasswordForm from 'components/forms/UpdateUserPasswordForm';
@@ -46,7 +47,7 @@ const SettingsPage = () => {
           </UserSettingsGrid>
         </TabPanel>
         <TabPanel>
-          <p>three!</p>
+          <AboutArticle />
         </TabPanel>
       </TabPanels>
     </Tabs>
