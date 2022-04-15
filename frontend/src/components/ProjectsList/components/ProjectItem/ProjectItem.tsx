@@ -4,7 +4,7 @@ import { Checkbox, Text } from '@chakra-ui/react';
 
 import { Project } from 'components/ProjectsList/ProjectsList';
 import ListActionButton from 'components/core/ListActionButton';
-import formatTime from 'utils/formatTime';
+import floatToTime from 'utils/floatToTime';
 
 interface Props {
   data?: Project;
@@ -88,8 +88,8 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
         <Checkbox></Checkbox>
       </CheckboxCell>
       <TitleCell>{name}</TitleCell>
-      <DataCell>{formatTime(today)}</DataCell>
-      <DataCell>{formatTime(week)}</DataCell>
+      <DataCell>{floatToTime(today)}</DataCell>
+      <DataCell>{floatToTime(week)}</DataCell>
       <DataCell>
         <Text fontWeight='semibold'>{month}h</Text>
       </DataCell>

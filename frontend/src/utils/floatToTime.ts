@@ -1,6 +1,6 @@
 const minsInHr = 60;
 
-const formatTime = (data: number): string => {
+const floatToTime = (data: number): string => {
   let sign: string | number = data >= 0 ? 1 : -1;
   data = data * sign;
   const hour = Math.floor(data);
@@ -18,4 +18,4 @@ const formatTime = (data: number): string => {
   return `${sign}${hour}:${minute}`;
 };
 
-export default formatTime;
+export default floatToTime;

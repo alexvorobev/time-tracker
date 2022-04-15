@@ -4,7 +4,7 @@ import { Checkbox, MenuItem, Text } from '@chakra-ui/react';
 
 import { Week } from '../..';
 import formatDate from 'utils/formatDate';
-import formatTime from 'utils/formatTime';
+import floatToTime from 'utils/floatToTime';
 import { useListState } from 'controllers/useListState';
 import ListActionButton from 'components/core/ListActionButton';
 import EditIcon from 'icons/EditIcon';
@@ -113,7 +113,7 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
   const formattedDate = formatDate(weekStart);
 
   const renderedDaysList = days.map((item, index) => (
-    <DayCell key={`${weekStart}_${index}`}>{formatTime(item)}</DayCell>
+    <DayCell key={`${weekStart}_${index}`}>{floatToTime(item)}</DayCell>
   ));
 
   return (
@@ -124,7 +124,7 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       <DateCell>{formattedDate}</DateCell>
       {renderedDaysList}
       <DayCell>
-        <Text fontWeight='semibold'>{formatTime(summary)}</Text>
+        <Text fontWeight='semibold'>{floatToTime(summary)}</Text>
       </DayCell>
       <ProjectsCell>
         <Text>Default project project</Text>
