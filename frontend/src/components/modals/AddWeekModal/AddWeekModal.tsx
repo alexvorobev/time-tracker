@@ -21,7 +21,7 @@ const AddWeekModal: FC<Props> = ({ onClose }) => {
   return (
     <Modal
       size='3xl'
-      isOpen
+      isOpen={false}
       onClose={function (): void {
         throw new Error('Function not implemented.');
       }}

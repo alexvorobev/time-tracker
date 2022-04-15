@@ -21,6 +21,7 @@ export interface UpdateUserType extends Partial<SignUpType> {
 interface AuthContextType {
   signIn?: (data: SignInType) => void;
   signUp?: (data: SignUpType) => void;
+  signOut?: () => void;
 }
 
 const noop = () => {};
@@ -28,6 +29,7 @@ const noop = () => {};
 export const AuthContext = createContext<AuthContextType>({
   signUp: noop,
   signIn: noop,
+  signOut: noop,
 });
 
 export const AuthProvider: FC = ({ children }) => {
@@ -48,7 +50,11 @@ export const AuthProvider: FC = ({ children }) => {
     console.log(data);
   }, []);
 
-  return <AuthContext.Provider value={{ signUp, signIn }}>{children}</AuthContext.Provider>;
+  const signOut = useCallback(() => {
+    console.log('logout');
+  }, []);
+
+  return <AuthContext.Provider value={{ signUp, signIn, signOut }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
