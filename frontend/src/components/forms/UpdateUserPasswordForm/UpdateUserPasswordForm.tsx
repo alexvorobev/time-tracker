@@ -5,19 +5,17 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { UpdateUserType } from 'controllers/useAuth';
+import regexps from 'utils/regexps';
 
 const schema = yup
   .object({
-    firstName: yup.string(),
-    lastName: yup.string(),
-    email: yup.string().trim().email(),
-    password: yup.string(),
-    newPassword: yup.string(),
-    repeatPassword: yup.string(),
+    password: yup.string().matches(regexps.password),
+    newPassword: yup.string().matches(regexps.password),
+    repeatPassword: yup.string().matches(regexps.password),
   })
   .required();
 
-const UpdateUserForm = () => {
+const UpdateUserPasswordForm = () => {
   const {
     register,
     handleSubmit,
@@ -34,24 +32,29 @@ const UpdateUserForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
         <Text fontSize='large' fontWeight='bold'>
-          User info
+          Password
         </Text>
         <Stack spacing={1}>
-          <Input value='alexvorobev01@gmail.com' isReadOnly isDisabled />
-        </Stack>
-        <Stack spacing={1}>
-          <Input placeholder='First name' {...register('firstName')} isInvalid={!!errors.firstName} />
-          {errors.firstName && (
+          <Input placeholder='Password' {...register('password')} isInvalid={!!errors.password} />
+          {errors.password && (
             <Text color='red' fontSize='sm'>
-              {errors.firstName.message}
+              {errors.password.message && 'Wrong password format'}
             </Text>
           )}
         </Stack>
         <Stack spacing={1}>
-          <Input placeholder='Last name' {...register('lastName')} isInvalid={!!errors.lastName} />
-          {errors.lastName && (
+          <Input placeholder='New password' {...register('newPassword')} isInvalid={!!errors.newPassword} />
+          {errors.newPassword && (
             <Text color='red' fontSize='sm'>
-              {errors.lastName.message}
+              {errors.newPassword.message && 'Wrong password format'}
+            </Text>
+          )}
+        </Stack>
+        <Stack spacing={1}>
+          <Input placeholder='Repeat password' {...register('repeatPassword')} isInvalid={!!errors.repeatPassword} />
+          {errors.repeatPassword && (
+            <Text color='red' fontSize='sm'>
+              {errors.repeatPassword.message && 'Wrong password format'}
             </Text>
           )}
         </Stack>
@@ -65,4 +68,4 @@ const UpdateUserForm = () => {
   );
 };
 
-export default UpdateUserForm;
+export default UpdateUserPasswordForm;
