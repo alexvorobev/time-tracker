@@ -1,12 +1,15 @@
 import { FC, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { Checkbox, Text } from '@chakra-ui/react';
+import { Checkbox, MenuItem, Text } from '@chakra-ui/react';
 
 import { Week } from '../..';
 import formatDate from 'utils/formatDate';
 import formatTime from 'utils/formatTime';
 import { useListState } from 'controllers/useListState';
 import ListActionButton from 'components/core/ListActionButton';
+import EditIcon from 'icons/EditIcon';
+import DeleteIcon from 'icons/DeleteIcon';
+import AddIcon from 'icons/AddIcon';
 
 interface Props {
   data?: Week;
@@ -44,30 +47,38 @@ export const WeekWrapper = styled.div<Pick<Props, 'isHeader'>>`
   `}
 `;
 
-export const CheckboxCell = styled.div`
-  flex: 0 0 64px;
-  text-align: center;
-`;
+export const CheckboxCell = styled('div')(() => ({
+  flex: '0 0 64px',
+  textAlign: 'center',
+}));
 
-export const DateCell = styled.div`
-  flex: 0 0 92px;
-  text-align: center;
-`;
+export const DateCell = styled('div')(() => ({
+  flex: '0 0 92px',
+  textAlign: 'center',
+}));
 
-export const DayCell = styled.div`
-  flex: 0 0 48px;
-  text-align: center;
-`;
+export const DayCell = styled('div')(() => ({
+  flex: '0 0 48px',
+  textAlign: 'center',
+}));
 
-export const ProjectsCell = styled.div`
-  flex: 1 0 73px;
-  text-align: center;
-`;
+export const ProjectsCell = styled('div')(() => ({
+  flex: '1 0 73px',
+  textAlign: 'center',
+  overflow: 'hidden',
 
-export const ActionCell = styled.div`
-  flex: 0 0 32px;
-  text-align: center;
-`;
+  '&>*': {
+    width: '100%',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+}));
+
+export const ActionCell = styled('div')(() => ({
+  flex: '0 0 32px',
+  textAlign: 'center',
+}));
 
 const WeekItem: FC<Props> = ({ data, isHeader }) => {
   const { selectedItems, onSelectItem } = useListState();
@@ -88,7 +99,9 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       <DayCell>Total</DayCell>
       <ProjectsCell>Project</ProjectsCell>
       <ActionCell>
-        <ListActionButton />
+        <ListActionButton>
+          <MenuItem icon={<AddIcon size={16} />}>Add week</MenuItem>
+        </ListActionButton>
       </ActionCell>
     </WeekWrapper>
   );
@@ -113,9 +126,14 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       <DayCell>
         <Text fontWeight='semibold'>{formatTime(summary)}</Text>
       </DayCell>
-      <ProjectsCell>Default</ProjectsCell>
+      <ProjectsCell>
+        <Text>Default project project</Text>
+      </ProjectsCell>
       <ActionCell>
-        <ListActionButton />
+        <ListActionButton>
+          <MenuItem icon={<EditIcon size={16} />}>Edit</MenuItem>
+          <MenuItem icon={<DeleteIcon size={16} />}>Delete</MenuItem>
+        </ListActionButton>
       </ActionCell>
     </WeekWrapper>
   );
