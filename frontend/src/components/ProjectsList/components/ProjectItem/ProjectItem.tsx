@@ -1,10 +1,13 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { Checkbox, Text } from '@chakra-ui/react';
+import { Checkbox, MenuItem, Text } from '@chakra-ui/react';
 
 import { Project } from 'components/ProjectsList/ProjectsList';
 import ListActionButton from 'components/core/ListActionButton';
 import floatToTime from 'utils/floatToTime';
+import DeleteIcon from 'icons/DeleteIcon';
+import EditIcon from 'icons/EditIcon';
+import AddIcon from 'icons/AddIcon';
 
 interface Props {
   data?: Project;
@@ -74,7 +77,11 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
         <DataCell>Month</DataCell>
         <DataCell>Total</DataCell>
         <ActionCell>
-          <ListActionButton />
+          <ListActionButton>
+            <MenuItem icon={<AddIcon size={16} />} isDisabled>
+              Add project
+            </MenuItem>
+          </ListActionButton>
         </ActionCell>
       </ProjectWrapper>
     );
@@ -97,7 +104,14 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
         <Text fontWeight='semibold'>{total}h</Text>
       </DataCell>
       <ActionCell>
-        <ListActionButton />
+        <ListActionButton>
+          <MenuItem icon={<EditIcon size={16} />} isDisabled>
+            Edit
+          </MenuItem>
+          <MenuItem icon={<DeleteIcon size={16} />} isDisabled>
+            Delete
+          </MenuItem>
+        </ListActionButton>
       </ActionCell>
     </ProjectWrapper>
   );

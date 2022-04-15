@@ -35,7 +35,7 @@ const UpdateUserPasswordForm = () => {
           Password
         </Text>
         <Stack spacing={1}>
-          <Input placeholder='Password' {...register('password')} isInvalid={!!errors.password} />
+          <Input type='password' placeholder='Password' {...register('password')} isInvalid={!!errors.password} />
           {errors.password && (
             <Text color='red' fontSize='sm'>
               {errors.password.message && 'Wrong password format'}
@@ -43,7 +43,12 @@ const UpdateUserPasswordForm = () => {
           )}
         </Stack>
         <Stack spacing={1}>
-          <Input placeholder='New password' {...register('newPassword')} isInvalid={!!errors.newPassword} />
+          <Input
+            type='password'
+            placeholder='New password'
+            {...register('newPassword')}
+            isInvalid={!!errors.newPassword}
+          />
           {errors.newPassword && (
             <Text color='red' fontSize='sm'>
               {errors.newPassword.message && 'Wrong password format'}
@@ -51,7 +56,12 @@ const UpdateUserPasswordForm = () => {
           )}
         </Stack>
         <Stack spacing={1}>
-          <Input placeholder='Repeat password' {...register('repeatPassword')} isInvalid={!!errors.repeatPassword} />
+          <Input
+            type='password'
+            placeholder='Repeat password'
+            {...register('repeatPassword')}
+            isInvalid={!!errors.repeatPassword}
+          />
           {errors.repeatPassword && (
             <Text color='red' fontSize='sm'>
               {errors.repeatPassword.message && 'Wrong password format'}
