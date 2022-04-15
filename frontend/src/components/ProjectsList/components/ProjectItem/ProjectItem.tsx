@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { Checkbox } from '@chakra-ui/react';
+import { Checkbox, Text } from '@chakra-ui/react';
 
 import { Project } from 'components/ProjectsList/ProjectsList';
 import ListActionButton from 'components/core/ListActionButton';
+import formatTime from 'utils/formatTime';
 
 interface Props {
   data?: Project;
@@ -87,10 +88,14 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
         <Checkbox></Checkbox>
       </CheckboxCell>
       <TitleCell>{name}</TitleCell>
-      <DataCell>{today}</DataCell>
-      <DataCell>{week}</DataCell>
-      <DataCell>{month}</DataCell>
-      <DataCell>{total}</DataCell>
+      <DataCell>{formatTime(today)}</DataCell>
+      <DataCell>{formatTime(week)}</DataCell>
+      <DataCell>
+        <Text fontWeight='semibold'>{month}h</Text>
+      </DataCell>
+      <DataCell>
+        <Text fontWeight='semibold'>{total}h</Text>
+      </DataCell>
       <ActionCell>
         <ListActionButton />
       </ActionCell>

@@ -1,9 +1,10 @@
 import { FC, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { Checkbox } from '@chakra-ui/react';
+import { Checkbox, Text } from '@chakra-ui/react';
 
 import { Week } from '../..';
 import formatDate from 'utils/formatDate';
+import formatTime from 'utils/formatTime';
 import { useListState } from 'controllers/useListState';
 import ListActionButton from 'components/core/ListActionButton';
 
@@ -98,7 +99,9 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
   const { weekStart, days, summary } = data;
   const formattedDate = formatDate(weekStart);
 
-  const renderedDaysList = days.map((item, index) => <DayCell key={`${weekStart}_${index}`}>{item}h</DayCell>);
+  const renderedDaysList = days.map((item, index) => (
+    <DayCell key={`${weekStart}_${index}`}>{formatTime(item)}</DayCell>
+  ));
 
   return (
     <WeekWrapper>
@@ -107,7 +110,9 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       </CheckboxCell>
       <DateCell>{formattedDate}</DateCell>
       {renderedDaysList}
-      <DayCell>{summary}h</DayCell>
+      <DayCell>
+        <Text fontWeight='semibold'>{formatTime(summary)}</Text>
+      </DayCell>
       <ProjectsCell>Default</ProjectsCell>
       <ActionCell>
         <ListActionButton />

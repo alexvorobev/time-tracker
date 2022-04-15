@@ -5,7 +5,7 @@ export const weeksMock: Week[] = [
   {
     id: 0,
     weekStart: new Date(),
-    days: [8, 8, 8, 4, 10, 4, 0],
+    days: [8, 8.8, 8, 4, 10, 4, 0],
     summary: 42,
   },
   {
