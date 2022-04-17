@@ -42,7 +42,6 @@ export class UserService {
   async signUp(signUpDto: SignUpDto) {
     const { password } = signUpDto;
     const salt = await bcrypt.genSalt();
-    console.log({ password, salt });
     const hashedPassword = await bcrypt.hash(password, salt);
 
     return this.prisma.user
