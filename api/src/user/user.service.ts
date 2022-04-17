@@ -1,26 +1,69 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/signIn.dto';
-import { UpdateUserDto } from './dto/updateUser.dto';
+import * as bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { SignInDto } from './dto/signIn.dto';
+import { SignUpDto } from './dto/signUp.dto';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(private prisma: PrismaService, private jswService: JwtService) {}
+  async signIn(signInDto: SignInDto) {
+    const { email, password } = signInDto;
+
+    const result = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!result) {
+      throw new NotFoundException();
+    }
+
+    const comparedPassword = await bcrypt.compare(password, result.password);
+
+    if (!comparedPassword) {
+      throw new UnauthorizedException("Can't find user with such email or password");
+    }
+
+    return {
+      token: this.jswService.sign({ userId: result.id }),
+    };
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async signUp(signUpDto: SignUpDto) {
+    const { password } = signUpDto;
+    const salt = await bcrypt.genSalt();
+    console.log({ password, salt });
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    return this.prisma.user
+      .create({
+        data: {
+          ...signUpDto,
+          password: hashedPassword,
+        },
+      })
+      .catch((e) => {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          if (e.code === 'P2002') {
+            throw new ConflictException('User with such credentials already exists!');
+          }
+        }
+
+        throw new InternalServerErrorException();
+      });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  validateUser(userId: string) {
+    return this.prisma.user.findUnique({ where: { id: +userId } });
   }
 }

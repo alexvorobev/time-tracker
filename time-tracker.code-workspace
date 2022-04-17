@@ -12,7 +12,8 @@
       "stylelint.enable": true,
       "cSpell.words": [
         "Chakra"
-      ]
+      ],
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
   }
   

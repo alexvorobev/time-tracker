@@ -16,7 +16,7 @@ model User {
   firstName String
   lastName  String
   password  String
-  business  String
+  business  String?
   createdAt DateTime  @default(now())
   Day       Day[]
   Tracker   Tracker[]
