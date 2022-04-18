@@ -16,6 +16,7 @@ export class UserController {
   @Post('/new')
   @UsePipes(ValidationPipe)
   singUp(@Body() signUpDto: SignUpDto) {
+    console.log({ signUpDto });
     return this.userService.signUp(signUpDto);
   }
 }

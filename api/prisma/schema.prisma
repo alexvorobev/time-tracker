@@ -20,6 +20,7 @@ model User {
   createdAt DateTime  @default(now())
   Day       Day[]
   Tracker   Tracker[]
+  Project   Project[]
 }
 
 model Project {
@@ -27,7 +28,9 @@ model Project {
   title     String
   total     String
   createdAt DateTime  @default(now())
+  createdBy Int
   Tracker   Tracker[]
+  User      User      @relation(fields: [createdBy], references: [id])
 }
 
 model Day {
