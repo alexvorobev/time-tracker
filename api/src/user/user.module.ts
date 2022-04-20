@@ -4,6 +4,7 @@ import { UserController } from './user.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { ProjectModule } from 'src/project/project.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
         expiresIn: '30days',
       },
     }),
+    ProjectModule,
   ],
   controllers: [UserController],
   providers: [UserService, JwtStrategy],

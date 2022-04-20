@@ -11,10 +11,11 @@ import {
 } from '@nestjs/common';
 import { SignInDto } from './dto/signIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
+import { ProjectService } from 'src/project/project.service';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService, private jswService: JwtService) {}
+  constructor(private prisma: PrismaService, private jswService: JwtService, private projectService: ProjectService) {}
   async signIn(signInDto: SignInDto) {
     const { email, password } = signInDto;
 
@@ -40,7 +41,7 @@ export class UserService {
   }
 
   async signUp(signUpDto: SignUpDto) {
-    const { password } = signUpDto;
+    const { password, email } = signUpDto;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -59,6 +60,14 @@ export class UserService {
         }
 
         throw new InternalServerErrorException();
+      })
+      .then(async ({ id }) => {
+        await this.projectService.create({ title: 'Default project' }, id);
+
+        return this.signIn({
+          email,
+          password,
+        });
       });
   }
 
