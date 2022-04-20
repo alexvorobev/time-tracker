@@ -20,6 +20,25 @@ export class TrackerService {
     });
   }
 
+  private async updateProjectAmount(id: number, trackedTime: number) {
+    const project = await this.prisma.project.findFirst({
+      where: {
+        id,
+      },
+    });
+    const { total } = project;
+    const updatedTotal = total + trackedTime;
+
+    return this.prisma.project.update({
+      where: {
+        id,
+      },
+      data: {
+        total: updatedTotal,
+      },
+    });
+  }
+
   private async stop(project: number, user: number) {
     const tracker = await this.prisma.tracker.findFirst({
       where: {
@@ -29,22 +48,32 @@ export class TrackerService {
       },
     });
     const stoppedAt = new Date();
-    const start = dayjs(tracker.startedAt);
-    const amount = start.diff(stoppedAt, 'minutes') / 60;
+    const endTime = dayjs(stoppedAt);
+    const amount = +(endTime.diff(tracker.startedAt, 'minutes') / 60).toFixed(4);
 
-    //TODO: Add project amount affection
+    const { title } = await this.updateProjectAmount(project, amount);
 
-    return this.prisma.tracker.updateMany({
-      where: {
-        project,
-        createdBy: user,
-        stoppedAt: null,
-      },
-      data: {
-        stoppedAt,
-        amount,
-      },
-    });
+    return this.prisma.tracker
+      .updateMany({
+        where: {
+          project,
+          createdBy: user,
+          stoppedAt: null,
+        },
+        data: {
+          stoppedAt,
+          amount,
+        },
+      })
+      .then(() => {
+        return {
+          project: title,
+          tracked: amount,
+        };
+      })
+      .catch((e) => {
+        return e;
+      });
   }
 
   async toggle(trackerDto: TrackerDto, user: number) {

@@ -11,7 +11,7 @@ export class ProjectService {
     return this.prisma.project.create({
       data: {
         ...createProjectDto,
-        total: '0',
+        total: 0,
         createdBy,
       },
       include: {

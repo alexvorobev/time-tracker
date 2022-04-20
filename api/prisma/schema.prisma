@@ -26,7 +26,7 @@ model User {
 model Project {
   id        Int       @id @default(autoincrement())
   title     String
-  total     String
+  total     Float?
   createdAt DateTime  @default(now())
   createdBy Int
   Tracker   Tracker[]
