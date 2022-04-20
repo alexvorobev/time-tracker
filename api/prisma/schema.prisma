@@ -43,13 +43,13 @@ model Day {
 }
 
 model Tracker {
-  id        Int      @id @default(autoincrement())
-  startedAt DateTime
-  stoppedAt DateTime
-  amount    Float
+  id        Int       @id @default(autoincrement())
+  startedAt DateTime  @default(now())
+  stoppedAt DateTime?
+  amount    Float?
   project   Int
   createdBy Int
-  createdAt DateTime @default(now())
-  User      User     @relation(fields: [createdBy], references: [id])
-  Project   Project  @relation(fields: [project], references: [id])
+  createdAt DateTime  @default(now())
+  User      User      @relation(fields: [createdBy], references: [id])
+  Project   Project   @relation(fields: [project], references: [id])
 }
