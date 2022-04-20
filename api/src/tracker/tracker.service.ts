@@ -32,6 +32,8 @@ export class TrackerService {
     const start = dayjs(tracker.startedAt);
     const amount = start.diff(stoppedAt, 'minutes') / 60;
 
+    //TODO: Add project amount affection
+
     return this.prisma.tracker.updateMany({
       where: {
         project,
