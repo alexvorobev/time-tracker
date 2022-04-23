@@ -8,7 +8,7 @@ import SettingsPage from 'pages/Dashboard/pages/SettingsPage';
 import ProjectsPage from 'pages/Dashboard/pages/ProjectsPage';
 import Routes from 'routes';
 import LoginPage from 'pages/Login';
-import { AuthProvider } from 'controllers/useAuth';
+import { AuthProvider } from 'controllers/auth/useAuth';
 
 import theme from './theme';
 

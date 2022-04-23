@@ -2,12 +2,12 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { Checkbox, MenuItem, Text } from '@chakra-ui/react';
 
-import { Project } from 'components/ProjectsList/ProjectsList';
 import ListActionButton from 'components/core/ListActionButton';
 import floatToTime from 'utils/floatToTime';
 import DeleteIcon from 'icons/DeleteIcon';
 import EditIcon from 'icons/EditIcon';
 import AddIcon from 'icons/AddIcon';
+import { Project } from 'controllers/projects/types';
 
 interface Props {
   data?: Project;
@@ -87,21 +87,23 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
     );
 
   if (!data) return null;
-  const { name, today, month, week, total } = data;
+  const { title, today, month, week, total } = data;
+  const monthLabel = month || '0';
+  const totalLabel = total || '0';
 
   return (
     <ProjectWrapper>
       <CheckboxCell>
         <Checkbox></Checkbox>
       </CheckboxCell>
-      <TitleCell>{name}</TitleCell>
-      <DataCell>{floatToTime(today)}</DataCell>
-      <DataCell>{floatToTime(week)}</DataCell>
+      <TitleCell>{title}</TitleCell>
+      <DataCell>{floatToTime(today || 0)}</DataCell>
+      <DataCell>{floatToTime(week || 0)}</DataCell>
       <DataCell>
-        <Text fontWeight='semibold'>{month}h</Text>
+        <Text fontWeight='semibold'>{monthLabel}h</Text>
       </DataCell>
       <DataCell>
-        <Text fontWeight='semibold'>{total}h</Text>
+        <Text fontWeight='semibold'>{totalLabel}h</Text>
       </DataCell>
       <ActionCell>
         <ListActionButton>

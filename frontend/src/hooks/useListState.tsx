@@ -20,8 +20,6 @@ export const ListProvider: FC = ({ children }) => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isSelectedAll, setSelectedAll] = useState<boolean>(false);
 
-  console.log({ selectedItems });
-
   const onSelectItem = useCallback(
     (item: number) => {
       setSelectedAll(false);

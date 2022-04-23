@@ -1,15 +1,8 @@
 import { FC } from 'react';
 
-import ProjectItem from './components/ProjectItem';
+import { Project } from 'controllers/projects/types';
 
-export type Project = {
-  id: number;
-  name: string;
-  today: number;
-  week: number;
-  month: number;
-  total: number;
-};
+import ProjectItem from './components/ProjectItem';
 
 interface Props {
   projects?: Project[];

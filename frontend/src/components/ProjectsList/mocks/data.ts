@@ -1,10 +1,11 @@
 /* eslint-disable no-magic-numbers */
-import { Project } from '../ProjectsList';
+
+import { Project } from 'controllers/projects/types';
 
 export const projectsMock: Project[] = [
   {
     id: 0,
-    name: 'Project 1',
+    title: 'Project 1',
     today: 2,
     week: 8,
     month: 20,
@@ -12,7 +13,7 @@ export const projectsMock: Project[] = [
   },
   {
     id: 1,
-    name: 'Project 2',
+    title: 'Project 2',
     today: 8,
     week: 32,
     month: 84,
@@ -20,7 +21,7 @@ export const projectsMock: Project[] = [
   },
   {
     id: 2,
-    name: 'Project 3',
+    title: 'Project 3',
     today: 0,
     week: 8,
     month: 36,
@@ -28,7 +29,7 @@ export const projectsMock: Project[] = [
   },
   {
     id: 3,
-    name: 'Project 4',
+    title: 'Project 4',
     today: 2,
     week: 8,
     month: 20,
@@ -36,7 +37,7 @@ export const projectsMock: Project[] = [
   },
   {
     id: 4,
-    name: 'Project 5',
+    title: 'Project 5',
     today: 8,
     week: 32,
     month: 84,
@@ -44,7 +45,7 @@ export const projectsMock: Project[] = [
   },
   {
     id: 5,
-    name: 'Project 6',
+    title: 'Project 6',
     today: 0,
     week: 8,
     month: 36,

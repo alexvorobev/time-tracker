@@ -1,10 +1,14 @@
 import ProjectsList from 'components/ProjectsList';
-import { projectsMock } from 'components/ProjectsList/mocks/data';
+import { useProjects } from 'controllers/projects/useProjects';
 
-const ProjectsPage = () => (
-  <div>
-    <ProjectsList projects={projectsMock} />
-  </div>
-);
+const ProjectsPage = () => {
+  const { projects } = useProjects();
+
+  return (
+    <div>
+      <ProjectsList projects={projects} />
+    </div>
+  );
+};
 
 export default ProjectsPage;

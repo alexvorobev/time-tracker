@@ -5,7 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import styled from '@emotion/styled';
 import * as yup from 'yup';
 
-import { SignUpType } from 'controllers/useAuth';
+import { SignUpType } from 'controllers/auth/types';
+import { useAuth } from 'controllers/auth/useAuth';
 import regexps from 'utils/regexps';
 
 interface Props {
@@ -28,11 +29,8 @@ const schema = yup
   })
   .required();
 
-const onSubmit: SubmitHandler<SignUpType> = (data) => {
-  console.log(data);
-};
-
 const SignUpForm: FC<Props> = ({ onSignIn }) => {
+  const { signUp, isLoading } = useAuth();
   const {
     register,
     handleSubmit,
@@ -40,6 +38,12 @@ const SignUpForm: FC<Props> = ({ onSignIn }) => {
   } = useForm<SignUpType>({
     resolver: yupResolver(schema),
   });
+
+  const onSubmit: SubmitHandler<SignUpType> = (data) => {
+    if (data) {
+      signUp(data);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -95,7 +99,7 @@ const SignUpForm: FC<Props> = ({ onSignIn }) => {
           <Button width='100%' onClick={onSignIn}>
             Sign In
           </Button>
-          <Button width='100%' variant='solid' colorScheme='brand' type='submit'>
+          <Button width='100%' variant='solid' colorScheme='brand' type='submit' isLoading={isLoading}>
             Sign Up
           </Button>
         </Stack>

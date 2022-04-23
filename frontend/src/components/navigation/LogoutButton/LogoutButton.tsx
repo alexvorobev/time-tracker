@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { useRef } from 'react';
 
-import { useAuth } from 'controllers/useAuth';
+import { useAuth } from 'controllers/auth/useAuth';
 import useHoverState from 'hooks/useHoverState';
 
 import LogoutIcon from './icons/LogoutIcon';

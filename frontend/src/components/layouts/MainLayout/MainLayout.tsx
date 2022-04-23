@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import LogoutButton from 'components/navigation/LogoutButton';
 import NavigationButton from 'components/navigation/NavigationButton';
 import Routes from 'routes';
-import { ListProvider } from 'controllers/useListState';
+import { ListProvider } from 'hooks/useListState';
 import TrackersList from 'components/navigation/TrackersList';
 
 import HomeIcon from './icons/HomeIcon';

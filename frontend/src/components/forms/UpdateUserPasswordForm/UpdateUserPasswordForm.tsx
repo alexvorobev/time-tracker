@@ -4,8 +4,8 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { UpdateUserType } from 'controllers/useAuth';
 import regexps from 'utils/regexps';
+import { UpdateUserType } from 'controllers/auth/types';
 
 const schema = yup
   .object({

@@ -4,7 +4,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { SignInType } from 'controllers/useAuth';
+import { SignInType } from 'controllers/auth/types';
+import { useAuth } from 'controllers/auth/useAuth';
 import regexps from 'utils/regexps';
 
 interface Props {
@@ -18,11 +19,8 @@ const schema = yup
   })
   .required();
 
-const onSubmit: SubmitHandler<SignInType> = (data) => {
-  console.log(data);
-};
-
 const SignInForm: FC<Props> = ({ onSignUp }) => {
+  const { signIn, isLoading } = useAuth();
   const {
     register,
     handleSubmit,
@@ -30,6 +28,10 @@ const SignInForm: FC<Props> = ({ onSignUp }) => {
   } = useForm<SignInType>({
     resolver: yupResolver(schema),
   });
+
+  const onSubmit: SubmitHandler<SignInType> = (data) => {
+    signIn(data);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -56,7 +58,7 @@ const SignInForm: FC<Props> = ({ onSignUp }) => {
           <Button width='100%' onClick={onSignUp}>
             Sign Up
           </Button>
-          <Button width='100%' variant='solid' colorScheme='brand' type='submit'>
+          <Button width='100%' variant='solid' colorScheme='brand' type='submit' isLoading={isLoading}>
             Sign In
           </Button>
         </Stack>
