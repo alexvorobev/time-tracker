@@ -6,3 +6,10 @@ export type Project = {
   month: number;
   total: number;
 };
+
+export type Tracker = {
+  project: number;
+  projectTitle: string;
+  startedAt: string;
+  stoppedAt?: string;
+};

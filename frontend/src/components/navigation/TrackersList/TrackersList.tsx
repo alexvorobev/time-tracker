@@ -1,6 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import styled from '@emotion/styled/macro';
 
+import { useProjects } from 'controllers/projects/useProjects';
+
 import TrackerButton from './components/TrackerButton';
 
 const AddButton = styled(Button)(() => ({
@@ -32,9 +34,19 @@ const ListWrapper = styled('div')(() => ({
 }));
 
 const TrackersList = () => {
+  const { trackers } = useProjects();
+
   return (
     <ListWrapper>
-      <TrackerButton isActive />
+      {trackers.map(({ startedAt, stoppedAt, project, projectTitle }) => (
+        <TrackerButton
+          key={project}
+          isActive={stoppedAt == null}
+          projectId={project}
+          projectTitle={projectTitle}
+          startedAt={startedAt}
+        />
+      ))}
       <AddButton disabled>Add tracker</AddButton>
     </ListWrapper>
   );

@@ -1,15 +1,22 @@
-import { FC } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Button, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
+
+import { useProjects } from 'controllers/projects/useProjects';
+import floatToTime from 'utils/floatToTime';
 
 import PlayIcon from './icons/PlayIcon';
 import PauseIcon from './icons/StopIcon';
 
 interface Props {
+  projectId: number;
+  projectTitle: string;
+  startedAt: string;
   isActive?: boolean;
 }
 
-const TrackerWrapper = styled('div')<Props>(({ isActive }) => ({
+const TrackerWrapper = styled('div')<Pick<Props, 'isActive'>>(({ isActive }) => ({
   position: 'relative',
   display: 'grid',
   gridTemplateColumns: 'auto 48px',
@@ -45,14 +52,42 @@ const TextWrapper = styled('div')(() => ({
   minWidth: 1,
 }));
 
-const TrackerButton: FC<Props> = ({ isActive }) => {
-  const renderedButtonIcon = !isActive ? <PlayIcon /> : <PauseIcon />;
+const SECOND = 1e3;
+
+const TrackerButton: FC<Props> = ({ projectId, projectTitle, startedAt, isActive }) => {
+  const { toggleTracker } = useProjects();
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  const [time, setTime] = useState('00:00');
+  const renderedButtonIcon = isActive ? <PauseIcon /> : <PlayIcon />;
+
+  const updateTimeLabel = useCallback(() => {
+    if (!isActive) return null;
+
+    const currentData = dayjs(new Date());
+    const startDate = dayjs(startedAt);
+    const diff = currentData.diff(startDate, 'hours', true);
+    setTime(floatToTime(diff));
+  }, [startedAt, isActive]);
+
+  useEffect(() => {
+    updateTimeLabel();
+  }, [currentTime, updateTimeLabel]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, SECOND);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [updateTimeLabel]);
 
   return (
-    <TrackerWrapper isActive={isActive}>
+    <TrackerWrapper isActive={isActive} onClick={() => toggleTracker(projectId)}>
       <TextWrapper>
-        <ProjectTitle fontWeight={800}>Default project</ProjectTitle>
-        <Text>00:15</Text>
+        <ProjectTitle fontWeight={800}>{projectTitle}</ProjectTitle>
+        <Text>{isActive ? time : '00:00'}</Text>
       </TextWrapper>
       <ActionButton variant='ghost'>{renderedButtonIcon}</ActionButton>
     </TrackerWrapper>

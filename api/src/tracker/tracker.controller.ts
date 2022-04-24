@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get } from '@nestjs/common';
 import { TrackerService } from './tracker.service';
 import { TrackerDto } from './dto/tracker.dto';
 import { UserGuard } from 'src/guards/user.guard';
@@ -13,5 +13,13 @@ export class TrackerController {
     const { user } = req;
 
     return this.trackerService.toggle(createTrackerDto, user.id);
+  }
+
+  @Get()
+  @UseGuards(UserGuard)
+  list(@Req() req: any) {
+    const { user } = req;
+
+    return this.trackerService.findAll(user.id);
   }
 }

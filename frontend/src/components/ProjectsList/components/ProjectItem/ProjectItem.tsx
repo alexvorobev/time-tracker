@@ -88,8 +88,8 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
 
   if (!data) return null;
   const { title, today, month, week, total } = data;
-  const monthLabel = month || '0';
-  const totalLabel = total || '0';
+  const monthLabel = !!month ? month.toFixed(2) : '0';
+  const totalLabel = !!total ? total.toFixed(2) : '0';
 
   return (
     <ProjectWrapper>

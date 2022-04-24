@@ -2,10 +2,34 @@ import { Injectable } from '@nestjs/common';
 import * as dayjs from 'dayjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TrackerDto } from './dto/tracker.dto';
+import formatTrackers from './utils/formatTrackers';
 
 @Injectable()
 export class TrackerService {
   constructor(private prisma: PrismaService) {}
+
+  async findAll(user: number) {
+    const activeTrackers = await this.prisma.tracker.findMany({
+      where: {
+        createdBy: user,
+        stoppedAt: null,
+      },
+      include: {
+        Project: true,
+      },
+    });
+
+    const latestTracker = await this.prisma.tracker.findFirst({
+      where: {
+        createdBy: user,
+      },
+      include: {
+        Project: true,
+      },
+    });
+
+    return activeTrackers.length > 0 ? formatTrackers(activeTrackers) : formatTrackers([latestTracker]);
+  }
 
   private create(project: number, user: number) {
     return this.prisma.tracker.create({

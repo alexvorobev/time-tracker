@@ -127,7 +127,7 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
         <Text fontWeight='semibold'>{floatToTime(summary)}</Text>
       </DayCell>
       <ProjectsCell>
-        <Text>Default project project</Text>
+        <Text>Default project</Text>
       </ProjectsCell>
       <ActionCell>
         <ListActionButton>
