@@ -8,6 +8,8 @@ import DeleteIcon from 'icons/DeleteIcon';
 import EditIcon from 'icons/EditIcon';
 import AddIcon from 'icons/AddIcon';
 import { Project } from 'controllers/projects/types';
+import { Modals } from 'controllers/modals/types';
+import { useModal } from 'controllers/modals/useModal';
 
 interface Props {
   data?: Project;
@@ -67,6 +69,8 @@ const ActionCell = styled('div')(() => ({
 }));
 
 const ProjectItem: FC<Props> = ({ data, isHeader }) => {
+  const { openModal } = useModal();
+
   if (isHeader)
     return (
       <ProjectWrapper isHeader>
@@ -78,7 +82,7 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
         <DataCell>Total</DataCell>
         <ActionCell>
           <ListActionButton>
-            <MenuItem icon={<AddIcon size={16} />} isDisabled>
+            <MenuItem icon={<AddIcon size={16} />} onClick={() => openModal(Modals.AddProjectModal)}>
               Add project
             </MenuItem>
           </ListActionButton>
@@ -107,12 +111,8 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
       </DataCell>
       <ActionCell>
         <ListActionButton>
-          <MenuItem icon={<EditIcon size={16} />} isDisabled>
-            Edit
-          </MenuItem>
-          <MenuItem icon={<DeleteIcon size={16} />} isDisabled>
-            Delete
-          </MenuItem>
+          <MenuItem icon={<EditIcon size={16} />}>Edit</MenuItem>
+          <MenuItem icon={<DeleteIcon size={16} />}>Delete</MenuItem>
         </ListActionButton>
       </ActionCell>
     </ProjectWrapper>

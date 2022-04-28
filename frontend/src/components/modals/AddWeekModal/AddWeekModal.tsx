@@ -25,6 +25,7 @@ const AddWeekModal: FC<Props> = ({ onClose }) => {
       onClose={function (): void {
         throw new Error('Function not implemented.');
       }}
+      isCentered
     >
       <ModalOverlay />
       <ModalContent>

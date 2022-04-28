@@ -100,7 +100,7 @@ const WeekItem: FC<Props> = ({ data, isHeader }) => {
       <ProjectsCell>Project</ProjectsCell>
       <ActionCell>
         <ListActionButton>
-          <MenuItem icon={<AddIcon size={16} />}>Add week</MenuItem>
+          <MenuItem icon={<AddIcon size={16} />}>Add manual</MenuItem>
         </ListActionButton>
       </ActionCell>
     </WeekWrapper>
