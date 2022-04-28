@@ -16,6 +16,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Project } from 'controllers/projects/types';
 import { useModal } from 'controllers/modals/useModal';
 import { Modals } from 'controllers/modals/types';
+import { useProjects } from 'controllers/projects/useProjects';
 
 type CreateProjectFields = Pick<Project, 'title'>;
 
@@ -24,12 +25,6 @@ const schema = yup
     title: yup.string().required(),
   })
   .required();
-
-const onSubmit: SubmitHandler<CreateProjectFields> = (data) => {
-  if (data) {
-    console.log(data);
-  }
-};
 
 const AddProjectModal = () => {
   const {
@@ -40,8 +35,14 @@ const AddProjectModal = () => {
     resolver: yupResolver(schema),
   });
   const { isModalOpen, closeModal } = useModal();
-
+  const { createProject } = useProjects();
   const isOpen = isModalOpen(Modals.AddProjectModal);
+
+  const onSubmit: SubmitHandler<CreateProjectFields> = (data) => {
+    if (data) {
+      createProject(data.title);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal} isCentered>

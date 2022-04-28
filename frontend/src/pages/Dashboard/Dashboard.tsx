@@ -5,13 +5,13 @@ import { ProjectsProvider } from 'controllers/projects/useProjects';
 import { ModalProvider } from 'controllers/modals/useModal';
 
 const Dashboard = () => (
-  <ProjectsProvider>
-    <ModalProvider>
+  <ModalProvider>
+    <ProjectsProvider>
       <MainLayout>
         <Outlet />
       </MainLayout>
-    </ModalProvider>
-  </ProjectsProvider>
+    </ProjectsProvider>
+  </ModalProvider>
 );
 
 export default Dashboard;

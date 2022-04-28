@@ -14,6 +14,8 @@ import { useModal } from 'controllers/modals/useModal';
 interface Props {
   data?: Project;
   isHeader?: boolean;
+  onDelete?: (id: number) => void;
+  onEdit?: (id: number) => void;
 }
 
 export const ProjectWrapper = styled.div<Pick<Props, 'isHeader'>>`
@@ -68,7 +70,7 @@ const ActionCell = styled('div')(() => ({
   justifyContent: 'center',
 }));
 
-const ProjectItem: FC<Props> = ({ data, isHeader }) => {
+const ProjectItem: FC<Props> = ({ data, isHeader, onDelete, onEdit }) => {
   const { openModal } = useModal();
 
   if (isHeader)
@@ -91,7 +93,7 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
     );
 
   if (!data) return null;
-  const { title, today, month, week, total } = data;
+  const { id, title, today, month, week, total } = data;
   const monthLabel = !!month ? month.toFixed(2) : '0';
   const totalLabel = !!total ? total.toFixed(2) : '0';
 
@@ -111,8 +113,12 @@ const ProjectItem: FC<Props> = ({ data, isHeader }) => {
       </DataCell>
       <ActionCell>
         <ListActionButton>
-          <MenuItem icon={<EditIcon size={16} />}>Edit</MenuItem>
-          <MenuItem icon={<DeleteIcon size={16} />}>Delete</MenuItem>
+          <MenuItem icon={<EditIcon size={16} />} onClick={() => onEdit?.(id)}>
+            Edit
+          </MenuItem>
+          <MenuItem icon={<DeleteIcon size={16} />} onClick={() => onDelete?.(id)}>
+            Delete
+          </MenuItem>
         </ListActionButton>
       </ActionCell>
     </ProjectWrapper>
