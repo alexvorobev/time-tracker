@@ -2,17 +2,18 @@ import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 import { getLocalStorageToken } from 'controllers/auth/utils/manageLocalStorage';
 
-const headersList = (): AxiosRequestConfig<AxiosRequestHeaders> => {
-  const headers: AxiosRequestHeaders = {};
+const headersList = <T = AxiosRequestHeaders>() =>
+  ((): AxiosRequestConfig<T> => {
+    const headers: AxiosRequestHeaders = {};
 
-  const { accessToken } = getLocalStorageToken();
+    const { accessToken } = getLocalStorageToken();
 
-  if (accessToken && window.location.pathname !== '/login') {
-    headers.authorization = `Bearer ${accessToken}`;
-  }
+    if (accessToken && window.location.pathname !== '/login') {
+      headers.authorization = `Bearer ${accessToken}`;
+    }
 
-  return { headers };
-};
+    return { headers };
+  })();
 
 console.log(headersList());
 
@@ -47,7 +48,7 @@ export const post = <PayloadType, ResponseType>(slug: string, data: unknown, onF
 
 export const update = <PayloadType>(slug: string, data: PayloadType) =>
   axios
-    .patch(`${process.env.REACT_APP_API_URL}${slug}`, data)
+    .patch(`${process.env.REACT_APP_API_URL}${slug}`, data, headersList<PayloadType>())
     .then((response) => response)
     .catch((error) => {
       console.error(error);

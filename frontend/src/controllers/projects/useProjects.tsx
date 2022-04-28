@@ -1,7 +1,7 @@
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
 
-import { get, post, remove } from 'utils/api';
+import { get, post, remove, update } from 'utils/api';
 import { useAuth } from 'controllers/auth/useAuth';
 import { ResultType } from 'utils/responseType';
 import { useModal } from 'controllers/modals/useModal';
@@ -12,8 +12,9 @@ interface ProjectsContextType {
   projects: Project[];
   trackers: Tracker[];
   toggleTracker: (projectId: number) => void;
-  deleteProject: (projectId: number) => void;
   createProject: (title: string) => void;
+  updateProject: (id: number, title: string) => void;
+  deleteProject: (projectId: number) => void;
 }
 
 const noop = () => {};
@@ -22,8 +23,9 @@ const ProjectsContext = createContext<ProjectsContextType>({
   projects: [],
   trackers: [],
   toggleTracker: noop,
-  deleteProject: noop,
   createProject: noop,
+  updateProject: noop,
+  deleteProject: noop,
 });
 
 export const ProjectsProvider: FC = ({ children }) => {
@@ -71,6 +73,40 @@ export const ProjectsProvider: FC = ({ children }) => {
         });
     },
     [closeModal, projects, toast],
+  );
+
+  const updateProject = useCallback(
+    (id, title: string) => {
+      update(`/projects/${id}`, { title })
+        .then((response) => {
+          if (response) {
+            const { data } = response;
+            const { id: updatedId, title: updatedTitle } = data;
+            const index = projects.findIndex((item) => item.id === updatedId);
+            const updatedProject = projects[index];
+            updatedProject.title = updatedTitle;
+            setProjects([...projects.filter((item) => item.id !== updatedId), updatedProject]);
+            closeModal();
+            toast({
+              title: `Project ${updatedTitle} updated.`,
+              description: "We've successfully updated a project for you!",
+              status: 'success',
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch((error) => {
+          toast({
+            title: 'Error!',
+            description: 'Something gone wrong!',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        });
+    },
+    [closeModal, toast, projects],
   );
 
   const deleteProject = useCallback(
@@ -134,7 +170,9 @@ export const ProjectsProvider: FC = ({ children }) => {
   }, [isAuthorized]);
 
   return (
-    <ProjectsContext.Provider value={{ projects, trackers, toggleTracker, createProject, deleteProject }}>
+    <ProjectsContext.Provider
+      value={{ projects, trackers, toggleTracker, createProject, updateProject, deleteProject }}
+    >
       {children}
     </ProjectsContext.Provider>
   );
