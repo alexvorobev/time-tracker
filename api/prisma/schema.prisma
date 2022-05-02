@@ -11,27 +11,27 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   firstName String
   lastName  String
   password  String
   business  String?
-  createdAt DateTime  @default(now())
+  createdAt DateTime   @default(now())
   Day       Fragment[]
   Tracker   Tracker[]
   Project   Project[]
 }
 
 model Project {
-  id        Int       @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   title     String
   total     Float?
-  createdAt DateTime  @default(now())
+  createdAt DateTime   @default(now())
   createdBy Int
   Tracker   Tracker[]
-  Fragment   Fragment[]
-  User      User      @relation(fields: [createdBy], references: [id])
+  Fragment  Fragment[]
+  User      User       @relation(fields: [createdBy], references: [id])
 }
 
 model Fragment {
@@ -41,7 +41,7 @@ model Fragment {
   project   Int
   createdBy Int
   createdAt DateTime @default(now())
-  Project   Project   @relation(fields: [project], references: [id])
+  Project   Project  @relation(fields: [project], references: [id])
   User      User     @relation(fields: [createdBy], references: [id])
 }
 

@@ -116,4 +116,20 @@ export class TrackerService {
 
     return isExist ? this.stop(project, user) : this.create(project, user);
   }
+
+  findByProject(project: number) {
+    return this.prisma.tracker.findMany({
+      where: {
+        project,
+      },
+    });
+  }
+
+  remove(id: number) {
+    return this.prisma.tracker.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

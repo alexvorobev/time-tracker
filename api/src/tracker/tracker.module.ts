@@ -5,5 +5,6 @@ import { TrackerController } from './tracker.controller';
 @Module({
   controllers: [TrackerController],
   providers: [TrackerService],
+  exports: [TrackerService],
 })
 export class TrackerModule {}

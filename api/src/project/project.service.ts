@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { TrackerService } from 'src/tracker/tracker.service';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { UpdateProjectDto } from './dto/updateProject.dto';
 
 @Injectable()
 export class ProjectService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private trackerService: TrackerService) {}
 
   create(createProjectDto: CreateProjectDto, createdBy: number) {
     return this.prisma.project.create({
@@ -28,7 +29,7 @@ export class ProjectService {
     });
   }
 
-  findOne(id: number, createdBy: number) {
+  findOne(id: number, createdBy?: number) {
     return this.prisma.project.findFirst({
       where: {
         id,
@@ -48,7 +49,10 @@ export class ProjectService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const trackers = await this.trackerService.findByProject(id);
+    await Promise.all(trackers.map((item) => this.trackerService.remove(item.id)));
+
     return this.prisma.project.delete({
       where: {
         id,
