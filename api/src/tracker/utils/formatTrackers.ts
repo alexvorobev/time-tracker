@@ -5,11 +5,13 @@ interface TrackerItem extends Tracker {
 }
 
 const formatTrackers = (data: TrackerItem[]) =>
-  data.map(({ startedAt, stoppedAt, project, Project: { title } }) => ({
-    project,
-    projectTitle: title,
-    startedAt,
-    stoppedAt,
-  }));
+  data.length > 0
+    ? data.map(({ startedAt, stoppedAt, project, Project: { title } }) => ({
+        project,
+        projectTitle: title,
+        startedAt,
+        stoppedAt,
+      }))
+    : [];
 
 export default formatTrackers;

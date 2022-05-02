@@ -1,10 +1,11 @@
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
 
-import { get, post, remove, update } from 'utils/api';
+import { ErrorResponse, get, post, remove, update } from 'utils/api';
 import { useAuth } from 'controllers/auth/useAuth';
 import { ResultType } from 'utils/responseType';
 import { useModal } from 'controllers/modals/useModal';
+import useErrorHandler from 'hooks/useErrorHandler';
 
 import { Project, Tracker } from './types';
 
@@ -34,13 +35,14 @@ export const ProjectsProvider: FC = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [trackers, setTrackers] = useState<Tracker[]>([]);
   const toast = useToast();
+  const onErrorHandler = useErrorHandler();
 
   const toggleTracker = useCallback((project: number) => {
     post('/tracker', { project })
       .then((data) => {
         console.log(data);
       })
-      .catch((error) => {
+      .catch((error: ErrorResponse) => {
         console.log(error);
       });
   }, []);
@@ -62,7 +64,7 @@ export const ProjectsProvider: FC = ({ children }) => {
             });
           }
         })
-        .catch((error) => {
+        .catch((error: ErrorResponse) => {
           toast({
             title: 'Error!',
             description: 'Something gone wrong!',
@@ -96,7 +98,7 @@ export const ProjectsProvider: FC = ({ children }) => {
             });
           }
         })
-        .catch((error) => {
+        .catch((error: ErrorResponse) => {
           toast({
             title: 'Error!',
             description: 'Something gone wrong!',
@@ -126,7 +128,7 @@ export const ProjectsProvider: FC = ({ children }) => {
             });
           }
         })
-        .catch((error) => {
+        .catch((error: ErrorResponse) => {
           toast({
             title: 'Error!',
             description: 'Something gone wrong!',
@@ -148,11 +150,9 @@ export const ProjectsProvider: FC = ({ children }) => {
             setTrackers(data);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(onErrorHandler);
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, onErrorHandler]);
 
   useEffect(() => {
     if (isAuthorized) {
@@ -163,11 +163,9 @@ export const ProjectsProvider: FC = ({ children }) => {
             setProjects(data);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(onErrorHandler);
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, onErrorHandler]);
 
   return (
     <ProjectsContext.Provider

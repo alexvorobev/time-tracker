@@ -28,6 +28,10 @@ export class TrackerService {
       },
     });
 
+    if (activeTrackers.length === 0 && latestTracker === null) {
+      return [];
+    }
+
     return activeTrackers.length > 0 ? formatTrackers(activeTrackers) : formatTrackers([latestTracker]);
   }
 

@@ -25,6 +25,8 @@ export const AuthContext = createContext<AuthContextType>({
   signOut: noop,
 });
 
+const FORWARD_LAG = 1000;
+
 export const AuthProvider: FC = ({ children }) => {
   const { isOpen: isAuthorized, setClosed: setUnauthorized, setOpen: setAuthorized } = useToggleState();
   const { isLoading, onStartLoading, onEndLoading } = useLoadingState();
@@ -50,10 +52,11 @@ export const AuthProvider: FC = ({ children }) => {
       if (response && !!response.data) {
         const { token } = response.data;
         if (token && typeof token === 'string') {
-          console.log('onSuccess', { token });
           setAuthorized();
-          navigate(Routes.HOME);
           setLocalStorageToken(token);
+          setTimeout(() => {
+            navigate(Routes.HOME);
+          }, FORWARD_LAG);
         }
       }
     },

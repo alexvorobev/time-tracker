@@ -18,9 +18,10 @@ const headersList = <T = AxiosRequestHeaders>() =>
 console.log(headersList());
 
 export interface ErrorResponse {
-  error: string;
-  message: string;
-  statusCode: number;
+  response: {
+    status: number;
+    statusText: string;
+  };
 }
 
 export interface SuccessResponse<T> {
@@ -28,36 +29,14 @@ export interface SuccessResponse<T> {
 }
 
 export const get = <ResponseType>(slug: string) =>
-  axios
-    .get<ResponseType>(`${process.env.REACT_APP_API_URL}${slug}`, headersList())
-    .then((response) => response)
-    .catch((error) => {
-      console.error(error);
-    });
+  axios.get<ResponseType>(`${process.env.REACT_APP_API_URL}${slug}`, headersList());
 
 export const post = <PayloadType, ResponseType>(slug: string, data: unknown, onFinally?: () => void) =>
-  axios
-    .post<PayloadType, ResponseType>(`${process.env.REACT_APP_API_URL}${slug}`, data, headersList())
-    .then((response) => response)
-    .catch((error) => {
-      console.log(error);
-    })
-    .finally(() => {
-      onFinally?.();
-    });
+  axios.post<PayloadType, ResponseType>(`${process.env.REACT_APP_API_URL}${slug}`, data, headersList()).finally(() => {
+    onFinally?.();
+  });
 
 export const update = <PayloadType>(slug: string, data: PayloadType) =>
-  axios
-    .patch(`${process.env.REACT_APP_API_URL}${slug}`, data, headersList<PayloadType>())
-    .then((response) => response)
-    .catch((error) => {
-      console.error(error);
-    });
+  axios.patch(`${process.env.REACT_APP_API_URL}${slug}`, data, headersList<PayloadType>());
 
-export const remove = (slug: string) =>
-  axios
-    .delete(`${process.env.REACT_APP_API_URL}${slug}`, headersList())
-    .then((response) => response)
-    .catch((error) => {
-      console.error(error);
-    });
+export const remove = (slug: string) => axios.delete(`${process.env.REACT_APP_API_URL}${slug}`, headersList());
