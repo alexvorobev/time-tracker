@@ -2,15 +2,17 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } fro
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/createProject.dto';
 import { UpdateProjectDto } from './dto/updateProject.dto';
-import { JwtAuthGuard } from 'src/user/jwt.guard';
 import { ProjectGuard } from './project.guard';
+import { FragmentGuard } from 'src/fragment/fragment.guard';
+import { FragmentService } from 'src/fragment/fragment.service';
+import { UserGuard } from 'src/guards/user.guard';
 
 @Controller('projects')
+@UseGuards(UserGuard)
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(private readonly projectService: ProjectService, private readonly fragmentsService: FragmentService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @UseGuards(ProjectGuard)
   create(@Body() createProjectDto: CreateProjectDto, @Req() req: any) {
     const { user } = req;
@@ -18,7 +20,6 @@ export class ProjectController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   @UseGuards(ProjectGuard)
   findAll(@Req() req: any) {
     const { user } = req;
@@ -26,28 +27,28 @@ export class ProjectController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   @UseGuards(ProjectGuard)
   findOne(@Param('id') id: string, @Req() req: any) {
     const { user } = req;
     return this.projectService.findOne(+id, user.id);
   }
 
-  @Patch(':id')
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(ProjectGuard)
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto, @Req() req: any) {
+  @Get(':project/fragments')
+  @UseGuards(FragmentGuard)
+  findAllByProject(@Param('project') id: string, @Req() req: any) {
     const { user } = req;
-    console.log({ user });
+    return this.fragmentsService.findAllByProject(+id, user.id);
+  }
+
+  @Patch(':id')
+  @UseGuards(ProjectGuard)
+  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(+id, updateProjectDto);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   @UseGuards(ProjectGuard)
-  remove(@Param('id') id: string, @Req() req: any) {
-    const { user } = req;
-    console.log({ user });
+  remove(@Param('id') id: string) {
     return this.projectService.remove(+id);
   }
 }
