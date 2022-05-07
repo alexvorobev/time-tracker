@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { Checkbox, MenuItem, Text } from '@chakra-ui/react';
+import { MenuItem, Text } from '@chakra-ui/react';
 
 import ListActionButton from 'components/core/ListActionButton';
 import floatToTime from 'utils/floatToTime';
@@ -48,13 +48,10 @@ export const ProjectWrapper = styled.div<Pick<Props, 'isHeader'>>`
   `}
 `;
 
-const CheckboxCell = styled.div`
-  flex: 0 0 64px;
-  text-align: center;
-`;
-
 const TitleCell = styled('div')(() => ({
   flex: '1 1 auto',
+  justifyContent: 'flex-start !important',
+  paddingLeft: 24,
 }));
 
 const DataCell = styled('div')(() => ({
@@ -76,7 +73,6 @@ const ProjectItem: FC<Props> = ({ data, isHeader, onDelete, onEdit }) => {
   if (isHeader)
     return (
       <ProjectWrapper isHeader>
-        <CheckboxCell></CheckboxCell>
         <TitleCell>Project</TitleCell>
         <DataCell>Today</DataCell>
         <DataCell>Week</DataCell>
@@ -99,9 +95,6 @@ const ProjectItem: FC<Props> = ({ data, isHeader, onDelete, onEdit }) => {
 
   return (
     <ProjectWrapper>
-      <CheckboxCell>
-        <Checkbox></Checkbox>
-      </CheckboxCell>
       <TitleCell>{title}</TitleCell>
       <DataCell>{floatToTime(today || 0)}</DataCell>
       <DataCell>{floatToTime(week || 0)}</DataCell>
