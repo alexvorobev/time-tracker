@@ -15,8 +15,6 @@ const headersList = <T = AxiosRequestHeaders>() =>
     return { headers };
   })();
 
-console.log(headersList());
-
 export interface ErrorResponse {
   response: {
     status: number;

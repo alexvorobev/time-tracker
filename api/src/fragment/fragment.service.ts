@@ -15,10 +15,10 @@ export class FragmentService {
     });
   }
 
-  findAllByProject(project: number, createdBy: number) {
+  findAll(createdBy: number, project?: number) {
     return this.prisma.fragment.findMany({
       where: {
-        project,
+        ...({ project } ?? {}),
         createdBy,
       },
     });

@@ -37,7 +37,7 @@ export class FragmentController {
   findAllForProject(@Query('project') id: string, @Req() req: any) {
     const { user } = req;
 
-    return this.fragmentService.findAllByProject(+id, user.id);
+    return this.fragmentService.findAll(user.id, id ? +id : undefined);
   }
 
   @Get(':id')
@@ -47,7 +47,6 @@ export class FragmentController {
     return this.fragmentService.findOne(+id);
   }
 
-  @Patch(':id')
   @UsePipes(ValidationPipe)
   @UseGuards(FragmentGuard)
   update(@Param('id') id: string, @Body() updateFragmentDto: UpdateFragmentDto) {

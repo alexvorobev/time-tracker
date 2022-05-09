@@ -7,6 +7,7 @@ import ActionIcon from 'icons/ActionIcon';
 const ActionButton = styled(MenuButton)(() => ({
   background: 'none !important',
   color: '#DBDDE4',
+  height: 24,
 
   ':hover': {
     color: '#0073D0',
