@@ -1,8 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import styled from '@emotion/styled/macro';
+
 import { Modals } from 'controllers/modals/types';
 import { useModal } from 'controllers/modals/useModal';
-
 import { useProjects } from 'controllers/projects/useProjects';
 
 import TrackerButton from './components/TrackerButton';

@@ -7,11 +7,11 @@ import NavigationButton from 'components/navigation/NavigationButton';
 import Routes from 'routes';
 import { ListProvider } from 'hooks/useListState';
 import TrackersList from 'components/navigation/TrackersList';
+import AddTrackerModal from 'components/modals/AddTrackerModal';
 
 import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
 import SettingsIcons from './icons/SettingsIcon';
-import AddTrackerModal from 'components/modals/AddTrackerModal';
 
 const MainWrapper = styled.div(`
     display: grid;
