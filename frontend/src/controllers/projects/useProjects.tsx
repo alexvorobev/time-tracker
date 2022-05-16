@@ -1,7 +1,7 @@
 import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/react';
 
-import { ErrorResponse, get, post, remove, update } from 'utils/api';
+import { ErrorResponse, eventStream, get, post, remove, update } from 'utils/api';
 import { useAuth } from 'controllers/auth/useAuth';
 import { ResultType } from 'utils/responseType';
 import { useModal } from 'controllers/modals/useModal';
@@ -36,6 +36,23 @@ export const ProjectsProvider: FC = ({ children }) => {
   const [trackers, setTrackers] = useState<Tracker[]>([]);
   const toast = useToast();
   const onErrorHandler = useErrorHandler();
+
+  useEffect(() => {
+    const eventSource = eventStream();
+
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
+    eventSource.onmessage = (message) => {
+      console.log(message);
+      get<Tracker[]>('/tracker')
+        .then((response) => {
+          if (response) {
+            const { data } = response;
+            setTrackers(data);
+          }
+        })
+        .catch(() => {});
+    };
+  }, []);
 
   const toggleTracker = useCallback((project: number) => {
     post('/tracker', { project })

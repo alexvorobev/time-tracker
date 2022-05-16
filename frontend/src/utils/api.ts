@@ -37,4 +37,9 @@ export const post = <PayloadType, ResponseType>(slug: string, data: unknown, onF
 export const update = <PayloadType>(slug: string, data: PayloadType) =>
   axios.patch(`${process.env.REACT_APP_API_URL}${slug}`, data, headersList<PayloadType>());
 
+export const eventStream = () =>
+  new EventSource(`${process.env.REACT_APP_API_URL}/sse`, {
+    withCredentials: true,
+  });
+
 export const remove = (slug: string) => axios.delete(`${process.env.REACT_APP_API_URL}${slug}`, headersList());
