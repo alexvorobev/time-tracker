@@ -43,7 +43,7 @@ const AddFragmentModal: FC = () => {
   };
 
   return (
-    <Modal isOpen={true} onClose={closeModal} isCentered>
+    <Modal isOpen={false} onClose={closeModal} isCentered>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={handleSubmit(onSubmit)}>

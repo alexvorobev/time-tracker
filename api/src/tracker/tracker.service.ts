@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import * as dayjs from 'dayjs';
+import { EventEmitter } from 'stream';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TrackerDto } from './dto/tracker.dto';
 import formatTrackers from './utils/formatTrackers';
+import { fromEvent } from 'rxjs';
 
 @Injectable()
 export class TrackerService {
-  constructor(private prisma: PrismaService) {}
+  private readonly emitter: EventEmitter;
+
+  constructor(private prisma: PrismaService) {
+    this.emitter = new EventEmitter();
+  }
 
   async findAll(user: number) {
     const activeTrackers = await this.prisma.tracker.findMany({
@@ -36,16 +42,20 @@ export class TrackerService {
   }
 
   private create(project: number, user: number) {
-    return this.prisma.tracker.create({
-      data: {
-        project,
-        createdBy: user,
-        amount: 0,
-      },
-      include: {
-        Project: true,
-      },
-    });
+    return this.prisma.tracker
+      .create({
+        data: {
+          project,
+          createdBy: user,
+          amount: 0,
+        },
+        include: {
+          Project: true,
+        },
+      })
+      .then(() => {
+        this.emitter.emit('tracker', { data: { emiting: 'update' } });
+      });
   }
 
   private async updateProjectAmount(id: number, trackedTime: number) {
@@ -94,6 +104,7 @@ export class TrackerService {
         },
       })
       .then(() => {
+        this.emitter.emit('tracker', { data: { emiting: 'update' } });
         return {
           project: title,
           tracked: amount,
@@ -115,6 +126,10 @@ export class TrackerService {
     });
 
     return isExist ? this.stop(project, user) : this.create(project, user);
+  }
+
+  connect() {
+    return fromEvent(this.emitter, 'tracker');
   }
 
   findByProject(project: number) {

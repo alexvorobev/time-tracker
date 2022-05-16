@@ -1,13 +1,11 @@
-import { createContext, FC, useCallback, useContext, useEffect, useState } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 
-import { ErrorResponse, eventStream, get, post, remove, update } from 'utils/api';
+import { eventStream, get } from 'utils/api';
 import { useAuth } from 'controllers/auth/useAuth';
-import { ResultType } from 'utils/responseType';
-import { useModal } from 'controllers/modals/useModal';
 import useErrorHandler from 'hooks/useErrorHandler';
 
 import { Project, Tracker } from './types';
+import useProjectCallbacks from './hooks/useProjectCallbacks';
 
 interface ProjectsContextType {
   projects: Project[];
@@ -31,14 +29,13 @@ const ProjectsContext = createContext<ProjectsContextType>({
 
 export const ProjectsProvider: FC = ({ children }) => {
   const { isAuthorized } = useAuth();
-  const { closeModal } = useModal();
   const [projects, setProjects] = useState<Project[]>([]);
   const [trackers, setTrackers] = useState<Tracker[]>([]);
-  const toast = useToast();
+  const { createProject, toggleTracker, updateProject, deleteProject } = useProjectCallbacks(projects, setProjects);
   const onErrorHandler = useErrorHandler();
 
   useEffect(() => {
-    const eventSource = eventStream();
+    const eventSource = eventStream('/tracker/stream');
 
     // eslint-disable-next-line unicorn/prefer-add-event-listener
     eventSource.onmessage = (message) => {
@@ -47,116 +44,13 @@ export const ProjectsProvider: FC = ({ children }) => {
         .then((response) => {
           if (response) {
             const { data } = response;
+            console.log({ data });
             setTrackers(data);
           }
         })
         .catch(() => {});
     };
   }, []);
-
-  const toggleTracker = useCallback((project: number) => {
-    post('/tracker', { project })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error: ErrorResponse) => {
-        console.log(error);
-      });
-  }, []);
-
-  const createProject = useCallback(
-    (title: string) => {
-      post<Pick<Project, 'title'>, ResultType<Project>>('/projects', { title })
-        .then((response) => {
-          if (response) {
-            const { data } = response;
-            setProjects([...projects, data]);
-            closeModal();
-            toast({
-              title: `Project ${data.title} created.`,
-              description: "We've successfully created a new project for you!",
-              status: 'success',
-              duration: 9000,
-              isClosable: true,
-            });
-          }
-        })
-        .catch((error: ErrorResponse) => {
-          toast({
-            title: 'Error!',
-            description: 'Something gone wrong!',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-        });
-    },
-    [closeModal, projects, toast],
-  );
-
-  const updateProject = useCallback(
-    (id, title: string) => {
-      update(`/projects/${id}`, { title })
-        .then((response) => {
-          if (response) {
-            const { data } = response;
-            const { id: updatedId, title: updatedTitle } = data;
-            const index = projects.findIndex((item) => item.id === updatedId);
-            const updatedProject = projects[index];
-            updatedProject.title = updatedTitle;
-            setProjects([...projects.filter((item) => item.id !== updatedId), updatedProject]);
-            closeModal();
-            toast({
-              title: `Project ${updatedTitle} updated.`,
-              description: "We've successfully updated a project for you!",
-              status: 'success',
-              duration: 9000,
-              isClosable: true,
-            });
-          }
-        })
-        .catch((error: ErrorResponse) => {
-          toast({
-            title: 'Error!',
-            description: 'Something gone wrong!',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-        });
-    },
-    [closeModal, toast, projects],
-  );
-
-  const deleteProject = useCallback(
-    (id: number) => {
-      remove(`/projects/${id}`)
-        .then((response) => {
-          if (response) {
-            const { data } = response;
-            setProjects(projects.filter((item) => item.id !== id));
-            closeModal();
-            toast({
-              title: `Project ${data.title} removed.`,
-              description: "We've successfully removed a project for you!",
-              status: 'success',
-              duration: 9000,
-              isClosable: true,
-            });
-          }
-        })
-        .catch((error: ErrorResponse) => {
-          toast({
-            title: 'Error!',
-            description: 'Something gone wrong!',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          });
-        });
-    },
-    [closeModal, projects, toast],
-  );
 
   useEffect(() => {
     if (isAuthorized) {
