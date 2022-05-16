@@ -5,12 +5,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { TrackerDto } from './dto/tracker.dto';
 import formatTrackers from './utils/formatTrackers';
 import { fromEvent } from 'rxjs';
+import { FragmentService } from 'src/fragment/fragment.service';
 
 @Injectable()
 export class TrackerService {
   private readonly emitter: EventEmitter;
 
-  constructor(private prisma: PrismaService) {
+  constructor(private prisma: PrismaService, private fragmentService: FragmentService) {
     this.emitter = new EventEmitter();
   }
 
@@ -91,7 +92,19 @@ export class TrackerService {
     const endTime = dayjs(stoppedAt);
     const amount = +(endTime.diff(tracker.startedAt, 'minutes') / 60).toFixed(4);
 
-    const { title } = await this.updateProjectAmount(project, amount);
+    const { title } = await this.prisma.project.findFirst({
+      where: { id: project },
+    });
+
+    // Create fragment
+    await this.fragmentService.create(
+      {
+        date: new Date(),
+        amount,
+        project,
+      },
+      user,
+    );
 
     return this.prisma.tracker
       .updateMany({
@@ -107,6 +120,7 @@ export class TrackerService {
       })
       .then(() => {
         this.emitter.emit('tracker', { data: { emiting: 'update' } });
+
         return {
           project: title,
           tracked: amount,

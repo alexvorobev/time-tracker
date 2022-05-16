@@ -21,12 +21,14 @@ export class ProjectService {
     });
   }
 
-  findAll(createdBy: number) {
-    return this.prisma.project.findMany({
+  async findAll(createdBy: number) {
+    const projects = await this.prisma.project.findMany({
       where: {
         createdBy,
       },
     });
+
+    return projects;
   }
 
   findOne(id: number, createdBy?: number) {

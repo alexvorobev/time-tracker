@@ -36,7 +36,7 @@ export class FragmentController {
   findAllForProject(@Query('project') id: string, @Req() req: any) {
     const { user } = req;
 
-    return this.fragmentService.findAll(user.id, id ? +id : undefined);
+    return this.fragmentService.findAll({ createdBy: user.id, project: id ? +id : undefined });
   }
 
   @Get(':id')

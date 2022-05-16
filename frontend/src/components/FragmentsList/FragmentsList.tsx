@@ -133,7 +133,7 @@ const FragmentsList: FC<Props> = ({ fragments, projectId }) => {
             <UnitCell>{project.title ?? 'Unknown project'}</UnitCell>
             <TimeCell>{from ? dayjs(from).format('hh:mm') : '-'}</TimeCell>
             <TimeCell>{to ? dayjs(to).format('hh:mm') : '-'}</TimeCell>
-            <TimeCell>{floatToTime(amount)}</TimeCell>
+            <TimeCell>{floatToTime(amount)}h</TimeCell>
             <UnitCell>{user}</UnitCell>
           </FragmentRow>
         ))}

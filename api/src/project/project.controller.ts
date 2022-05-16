@@ -37,7 +37,7 @@ export class ProjectController {
   @UseGuards(FragmentGuard)
   findAllByProject(@Param('project') id: string, @Req() req: any) {
     const { user } = req;
-    return this.fragmentsService.findAll(+id, user.id);
+    return this.fragmentsService.findAll({ project: +id, createdBy: user.id });
   }
 
   @Patch(':id')

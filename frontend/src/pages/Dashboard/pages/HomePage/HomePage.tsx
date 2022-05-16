@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Tab, Tabs, TabList, Stack } from '@chakra-ui/react';
 
 import FragmentsList from 'components/FragmentsList';
-import data from 'components/FragmentsList/data.mock';
+import useFragmentsRequest from 'controllers/fragments/useFragmentsRequest';
 
 const Graph = styled.div`
   width: 100%;
@@ -52,6 +52,8 @@ const dateFilterItems = [
 ];
 
 const HomePage = () => {
+  const fragments = useFragmentsRequest();
+
   const renderedTimeFilter = (
     <Tabs size='sm' variant='soft-rounded'>
       <TabList gap={2}>
@@ -68,7 +70,15 @@ const HomePage = () => {
     <Stack spacing={8}>
       {renderedTimeFilter}
       <Graph />
-      <FragmentsList fragments={data} />
+      <FragmentsList
+        fragments={fragments.map((item) => ({
+          id: item.id,
+          date: new Date(item.date),
+          amount: item.amount,
+          project: item.Project,
+          user: item.User.firstName,
+        }))}
+      />
     </Stack>
   );
 };

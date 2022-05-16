@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { UpdateUserType } from 'controllers/auth/types';
+import { useAuth } from 'controllers/auth/useAuth';
 
 const schema = yup
   .object({
@@ -18,12 +19,18 @@ const schema = yup
   .required();
 
 const UpdateUserForm = () => {
+  const { userInfo } = useAuth();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdateUserType>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+    },
   });
 
   const onSubmit = useCallback((data?: UpdateUserType) => {
@@ -55,11 +62,12 @@ const UpdateUserForm = () => {
             </Text>
           )}
         </Stack>
-        <div>
+        <Stack spacing={2} direction='row'>
           <Button type='submit' variant='solid' colorScheme='brand'>
             Save
           </Button>
-        </div>
+          <Button onClick={() => reset()}>Reset</Button>
+        </Stack>
       </Stack>
     </form>
   );

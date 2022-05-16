@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "docker:start": "docker-compose -p time-tracker up -d",
+    "docker:start": "docker-compose -p time-tracker up -d && npx prisma migrate deploy",
     "db:schema": "npx prisma format && npx prisma validate"
   },
   "dependencies": {
