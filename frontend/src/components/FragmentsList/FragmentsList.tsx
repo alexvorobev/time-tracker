@@ -7,6 +7,7 @@ import { Project } from 'controllers/projects/types';
 import floatToTime from 'utils/floatToTime';
 import AddIcon from 'icons/AddIcon';
 import { ListProvider, useListState } from 'hooks/useListState';
+import AddFragmentModal from 'components/modals/AddFragmentModal';
 
 type Fragment = {
   id: number;
@@ -94,9 +95,11 @@ const FragmentsList: FC<Props> = ({ fragments, projectId }) => {
     () => (
       <ActionRow>
         <Stack direction='row'>
-          <Button size='sm' leftIcon={<AddIcon size={16} />}>
-            Add
-          </Button>
+          {!projectId && (
+            <Button size='sm' leftIcon={<AddIcon size={16} />}>
+              Add
+            </Button>
+          )}
           <Button colorScheme='brand' disabled={isEditDisabled} size='sm'>
             Edit
           </Button>
@@ -109,7 +112,7 @@ const FragmentsList: FC<Props> = ({ fragments, projectId }) => {
         </Text>
       </ActionRow>
     ),
-    [fragments.length, isDeleteDisabled, isEditDisabled],
+    [fragments.length, isDeleteDisabled, isEditDisabled, projectId],
   );
 
   return (
@@ -135,6 +138,7 @@ const FragmentsList: FC<Props> = ({ fragments, projectId }) => {
           </FragmentRow>
         ))}
       </Stack>
+      <AddFragmentModal />
     </>
   );
 };
