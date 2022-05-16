@@ -1,4 +1,5 @@
 export enum Modals {
+  AddTrackerModal,
   AddFragmentModal,
   AddProjectModal,
   EditProjectModal,

@@ -11,6 +11,7 @@ import TrackersList from 'components/navigation/TrackersList';
 import HomeIcon from './icons/HomeIcon';
 import ProjectsIcon from './icons/ProjectsIcon';
 import SettingsIcons from './icons/SettingsIcon';
+import AddTrackerModal from 'components/modals/AddTrackerModal';
 
 const MainWrapper = styled.div(`
     display: grid;
@@ -69,6 +70,7 @@ const MainLayout: FC = ({ children }) => (
     <ContentWrapper>
       <ListProvider>{children}</ListProvider>
     </ContentWrapper>
+    <AddTrackerModal />
   </MainWrapper>
 );
 

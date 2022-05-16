@@ -27,7 +27,6 @@ export const ModalProvider: FC = ({ children }) => {
   );
 
   const closeModal = useCallback(() => {
-    console.log({ modalsPool });
     setModalsPool(modalsPool.slice(1));
   }, [modalsPool]);
 

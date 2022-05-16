@@ -25,7 +25,7 @@ export class TrackerService {
       },
     });
 
-    const latestTracker = await this.prisma.tracker.findFirst({
+    const latestTracker = await this.prisma.tracker.findMany({
       where: {
         createdBy: user,
       },
@@ -34,11 +34,13 @@ export class TrackerService {
       },
     });
 
-    if (activeTrackers.length === 0 && latestTracker === null) {
+    if (activeTrackers.length === 0 && latestTracker.length === 0) {
       return [];
     }
 
-    return activeTrackers.length > 0 ? formatTrackers(activeTrackers) : formatTrackers([latestTracker]);
+    return activeTrackers.length > 0
+      ? formatTrackers(activeTrackers)
+      : formatTrackers([latestTracker[latestTracker.length - 1]]);
   }
 
   private create(project: number, user: number) {
