@@ -38,9 +38,6 @@ const StyledTab = styled(Tab)(() => ({
 
 const dateFilterItems = [
   {
-    title: 'All',
-  },
-  {
     title: 'Today',
   },
   {
