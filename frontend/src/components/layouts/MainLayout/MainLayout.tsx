@@ -17,7 +17,8 @@ const MainWrapper = styled.div(`
     display: grid;
     grid-template-columns: 2fr 10fr;
     gap: 24px;
-    max-width: 1224px;
+    width: calc(100vw - 128px);
+    max-width: 1864px;
     margin: 0 auto;
     height: 100vh;
     padding: 32px 0 48px;
